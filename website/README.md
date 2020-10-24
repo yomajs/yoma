@@ -1,16 +1,14 @@
-# Nexus Documentation
+# Yoma Documentation
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/daf3b1fe-4f28-491b-a431-ce8cce94e291/deploy-status)](https://app.netlify.com/sites/nexus-docs/deploys)
-
-This repository contains the [source code](./src) and the [content](./content) for the [Nexus documentation](/).
+This repository contains the [source code](./src) and the [content](./content) for the [Yoma documentation](/).
 
 ## Run locally
 
 Download the code and get started by running the following commands:
 
 ```
-git clone git@github.com:graphql-nexus.git
-cd nexus
+git clone https://github.com/yomajs/yoma.git
+cd yoma
 cd website
 yarn
 yarn dev

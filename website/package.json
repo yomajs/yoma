@@ -1,6 +1,6 @@
 {
-  "name": "nexus-docs",
-  "description": "Nexus Docs",
+  "name": "yoma-docs",
+  "description": "Yoma Docs",
   "version": "1.0.0",
   "dependencies": {
     "@mdx-js/mdx": "^1.5.5",
@@ -59,7 +59,7 @@
     "write": "^2.0.0"
   },
   "keywords": [
-    "nexus"
+    "yoma"
   ],
   "license": "MIT",
   "scripts": {

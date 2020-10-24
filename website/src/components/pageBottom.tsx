@@ -167,7 +167,7 @@ const PageBottom = ({ editDocsPath }: any) => {
                   type="primary"
                   href={`${twitterShareUrl}${currentDocsPageURL}`}
                 >
-                  <Twitter /> Share Nexus Docs on Twitter
+                  <Twitter /> Share Yoma Docs on Twitter
                 </Button>
               </>
             )}
