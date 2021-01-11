@@ -48,7 +48,7 @@ it('extracts interfaces', async () => {
       "typegen": " export type BackingTypes =
       | 'Test'
     declare global {
-      export interface NexusBackingTypes {
+      export interface YomaBackingTypes {
         types: BackingTypes
       }
     }
@@ -72,7 +72,7 @@ it('extracts type alias', async () => {
       "typegen": " export type BackingTypes =
       | 'Test'
     declare global {
-      export interface NexusBackingTypes {
+      export interface YomaBackingTypes {
         types: BackingTypes
       }
     }
@@ -96,7 +96,7 @@ Object {
   "typegen": " export type BackingTypes =
   | 'Test'
 declare global {
-  export interface NexusBackingTypes {
+  export interface YomaBackingTypes {
     types: BackingTypes
   }
 }
@@ -120,7 +120,7 @@ Object {
   "typegen": " export type BackingTypes =
   | 'Test'
 declare global {
-  export interface NexusBackingTypes {
+  export interface YomaBackingTypes {
     types: BackingTypes
   }
 }
@@ -146,7 +146,7 @@ Object {
   "backingTypes": Object {},
   "typegen": "export type BackingTypes = 'No backing types found. Make sure you have some types exported'
 declare global {
-  export interface NexusBackingTypes {
+  export interface YomaBackingTypes {
     types: BackingTypes
   }
 }
@@ -167,7 +167,7 @@ Object {
   "backingTypes": Object {},
   "typegen": "export type BackingTypes = 'No backing types found. Make sure you have some types exported'
 declare global {
-  export interface NexusBackingTypes {
+  export interface YomaBackingTypes {
     types: BackingTypes
   }
 }

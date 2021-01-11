@@ -33,8 +33,8 @@ interface BuildSettings {
   cwd?: string
 }
 
-export async function buildNexusApp(settings: BuildSettings) {
-  process.env.NEXUS_BUILD = 'true'
+export async function buildYomaApp(settings: BuildSettings) {
+  process.env.YOMA_BUILD = 'true'
 
   const startTime = Date.now()
   const deploymentTarget = normalizeTarget(settings.target)
@@ -142,12 +142,12 @@ export async function buildNexusApp(settings: BuildSettings) {
   if (deploymentTarget) {
     logTargetPostBuildMessage(deploymentTarget)
   }
-  delete process.env.NEXUS_BUILD
+  delete process.env.YOMA_BUILD
 }
 
 /**
  * Output to disk in the build the start module that will be used to boot the
- * nexus app.
+ * yoma app.
  */
 export async function writeStartModule({
   startModule,
@@ -163,7 +163,7 @@ export async function writeStartModule({
   if (FS.exists(layout.build.startModuleInPath)) {
     fatal(stripIndent`
       Found ${layout.build.startModuleInPath}
-      Nexus reserves the source root module name ${START_MODULE_NAME}.js for its own use.
+      Yoma reserves the source root module name ${START_MODULE_NAME}.js for its own use.
       Please change your app layout to not have this module.
       This is a temporary limitation that we intend to remove in the future. 
       For more details please see this GitHub issue: https://github.com/graphql-nexus/nexus/issues/139

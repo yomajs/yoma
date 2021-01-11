@@ -2,7 +2,7 @@ import { GraphQLError, GraphQLFormattedError, GraphQLSchema } from 'graphql'
 import { ContextAdder } from '../schema'
 import { ApolloServerless } from './apollo-server'
 import { log } from './logger'
-import { NexusRequestHandler } from './server'
+import { YomaRequestHandler } from './server'
 import { PlaygroundLonghandInput } from './settings'
 
 type Settings = {
@@ -16,7 +16,7 @@ type CreateHandler = (
   schema: GraphQLSchema,
   createContext: ContextAdder,
   settings: Settings
-) => NexusRequestHandler
+) => YomaRequestHandler
 
 /**
  * Create a handler for graphql requests.

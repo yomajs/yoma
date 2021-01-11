@@ -50,7 +50,7 @@ export function extractContextTypes(
 
   const contextTypeContributions: ExtractedContextTypes = defaultTypes
 
-  const appSourceFiles = findModulesThatImportModule(program, 'nexus')
+  const appSourceFiles = findModulesThatImportModule(program, 'yoma')
 
   log.trace('got app source files', {
     count: appSourceFiles.length,
@@ -96,7 +96,7 @@ export function extractContextTypes(
 
     for (const imp of item.imports) {
       /**
-       * case of e.g. import app from 'nexus'
+       * case of e.g. import app from 'yoma'
        * Thus search for exp of "app.schema"
        */
       if (imp.default) {
@@ -104,10 +104,10 @@ export function extractContextTypes(
       }
 
       /**
-       * case of e.g. import { schema } from 'nexus'
+       * case of e.g. import { schema } from 'yoma'
        * thus search for exp of "schema"
        *
-       * case of e.g. import { schema as foo } from 'nexus'
+       * case of e.g. import { schema as foo } from 'yoma'
        * thus search for exp of "foo"
        */
       const namedSchemaImport = imp.named?.find((n) => n.name === 'schema')

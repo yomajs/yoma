@@ -36,7 +36,7 @@ export function mapSettingsAndPluginsToNexusSchemaConfig(
     baseConfig.plugins!.push(NexusSchema.fieldAuthorizePlugin(settings.authorization))
   }
 
-  // Merge the plugin nexus plugins
+  // Merge the plugin yoma plugins
   for (const frameworkPlugin of frameworkPlugins) {
     const schemaPlugins = frameworkPlugin.schema?.plugins ?? []
     baseConfig.plugins!.push(...schemaPlugins)

@@ -13,7 +13,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import createError from 'http-errors'
 import { parseBody, parseQuery } from '../parse-body'
 import { sendError, sendJSON, sendResponse } from '../utils'
-import { NexusRequestHandler } from '../server'
+import { YomaRequestHandler } from '../server'
 import { ApolloConfig } from './types'
 
 export interface ServerRegistration {
@@ -81,8 +81,7 @@ export class ApolloServerless extends ApolloServerBase {
   private isPlaygroundRequest(req: IncomingMessage) {
     const playgroundEnabled = Boolean(this.playgroundOptions) && req.method === 'GET'
     const acceptTypes = accepts(req).types() as string[]
-    const prefersHTML =
-      acceptTypes.find((x: string) => x === 'text/html') === 'text/html'
+    const prefersHTML = acceptTypes.find((x: string) => x === 'text/html') === 'text/html'
 
     return playgroundEnabled && prefersHTML
   }
@@ -171,14 +170,14 @@ function setHeaders(res: ServerResponse, headers: Record<string, string>): void 
   })
 }
 
-export interface NexusGraphQLOptionsFunction {
+export interface YomaGraphQLOptionsFunction {
   (req: IncomingMessage, res: ServerResponse): GraphQLOptions | Promise<GraphQLOptions>
 }
 
 // Build and return an async function that passes incoming GraphQL requests
 // over to Apollo Server for processing, then fires the results/response back
 // using Micro's `send` functionality.
-export function graphqlHandler(options: NexusGraphQLOptionsFunction): NexusRequestHandler {
+export function graphqlHandler(options: YomaGraphQLOptionsFunction): YomaRequestHandler {
   if (!options) {
     throw new Error('Apollo Server requires options.')
   }

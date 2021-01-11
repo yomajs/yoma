@@ -1,7 +1,7 @@
 import * as App from './app'
 
 /**
- * [API Reference](https://nxs.li/docs/api/app) ⌁ [Issues](https://nxs.li/issues) ⌁ [Discussions](https://nxs.li/discussions) ⌁ [Tweets](https://nxs.li/tweets)
+ * [API Reference](https://yoma.dev) ⌁ [Issues](https://github.com/yomajs/yoma/issues) ⌁ [Discussions](https://github.com/yomajs/yoma/discussions) ⌁ [Tweets](https://twitter.com/yomajs)
  */
 const app = App.create()
 

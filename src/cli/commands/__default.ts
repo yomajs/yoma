@@ -16,7 +16,7 @@ export class __Default implements Command {
     switch (projectType.type) {
       case 'new':
         log.trace(
-          'detected CWD is empty and not within an existing nexus project, delegating to create sub-command',
+          'detected CWD is empty and not within an existing yoma project, delegating to create sub-command',
           {
             cwd: process.cwd(),
           }
@@ -25,22 +25,22 @@ export class __Default implements Command {
           projectName: CWDProjectNameOrGenerate(),
         })
         break
-      case 'NEXUS_project':
-        log.trace('detected CWD is within a nexus project, delegating to dev mode', {
+      case 'YOMA_project':
+        log.trace('detected CWD is within a yoma project, delegating to dev mode', {
           cwd: process.cwd(),
         })
         await new Dev().parse([])
         break
       case 'node_project':
-        log.trace('detected CWD is within a node but not nexus project, aborting', {
+        log.trace('detected CWD is within a node but not yoma project, aborting', {
           cwd: process.cwd(),
         })
         console.log(
-          "Looks like you are inside a node but not nexus project. Please either add nexus to this project's dependencies and re-run this command or navigate to a new empty folder that does not have a package.json file present in an ancestor directory."
+          "Looks like you are inside a node—but not yoma—project. Please either add yoma to this project's dependencies and re-run this command or navigate to a new empty folder that does not have a package.json file present in an ancestor directory."
         )
         break
       case 'unknown':
-        log.trace('detected CWD is not empty nor a nexus project, aborting')
+        log.trace('detected CWD is not empty nor a yoma project, aborting')
         // We can get the user on the happy path by asking them for a project
         // name and then changing into that directory.
         const projectName = generateProjectName()
@@ -65,7 +65,7 @@ export class __Default implements Command {
           NOTE
           ----
 
-          Your new nexus project was created in ${projectName}. Only you can navigate into it:
+          Your new yoma project was created in ${projectName}. Only you can navigate into it:
           
             cd ./${projectName}
         `)

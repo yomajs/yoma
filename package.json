@@ -1,10 +1,10 @@
 {
-  "name": "graphql-framework-experiment",
-  "author": "Prisma Labs",
+  "name": "yoma",
+  "author": "Jason Kuhrt",
   "version": "0.0.0-dripip",
-  "homepage": "https://github.com/graphql-nexus/nexus",
-  "repository": "graphql-nexus/nexus",
-  "bugs": "https://github.com/graphql-nexus/nexus/issues",
+  "homepage": "https://github.com/yomajs/yoma",
+  "repository": "yomajs/yoma",
+  "bugs": "https://github.com/yomajs/yoma/issues",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist-esm/index.js",
@@ -26,7 +26,7 @@
     "typescript-language-service/index.js"
   ],
   "bin": {
-    "nexus": "dist/cli/main.js"
+    "yoma": "dist/cli/main.js"
   },
   "dependencies": {
     "@nexus/logger": "^0.2.0",
@@ -108,11 +108,6 @@
     ]
   },
   "scripts": {
-    "dev:docs": "docsify serve docs",
-    "docs:dev": "docsify serve docs",
-    "docs:readme:build": "doctoc README.md --notitle --maxlevel 3",
-    "docs:deploy": "vercel --prod",
-    "docs:deploy:preview": "vercel",
     "release:stable": "dripip stable",
     "release:preview": "dripip preview",
     "release:pr": "dripip pr",

@@ -12,7 +12,7 @@ import { rootLogger } from '../nexus-logger'
 import { exception, exceptionType } from '../utils'
 import { DEFAULT_BUILD_DIR_PATH_RELATIVE_TO_PROJECT_ROOT } from './build'
 
-export const NEXUS_TS_LSP_IMPORT_ID = 'nexus/typescript-language-service'
+export const YOMA_TS_LSP_IMPORT_ID = 'yoma/typescript-language-service'
 
 const log = rootLogger.child('tsconfig')
 
@@ -112,12 +112,12 @@ export async function readOrScaffoldTsconfig(input: {
   const plugins = tsconfigSource.compilerOptions.plugins
 
   if (plugins.length) {
-    if (!plugins.map((p) => p.name).includes('nexus/typescript-language-service')) {
+    if (!plugins.map((p) => p.name).includes('yoma/typescript-language-service')) {
       // work with the local tsconfig for fix
-      const pluginsFixed = tsconfigSource.compilerOptions.plugins.concat([{ name: NEXUS_TS_LSP_IMPORT_ID }])
+      const pluginsFixed = tsconfigSource.compilerOptions.plugins.concat([{ name: YOMA_TS_LSP_IMPORT_ID }])
       log.warn(
         stripIndent`
-          You have not added the Nexus TypeScript Language Service Plugin to your configured TypeScript plugins. Add this to your compilerOptions:
+          You have not added the Yoma TypeScript Language Service Plugin to your configured TypeScript plugins. Add this to your compilerOptions:
 
               ${chalk.yellowBright(`"plugins": ${JSON.stringify(pluginsFixed)}`)}
         ` + EOL
@@ -126,9 +126,9 @@ export async function readOrScaffoldTsconfig(input: {
   } else {
     log.warn(
       stripIndent`
-        You have not setup the Nexus TypeScript Language Service Plugin. Add this to your compiler options:
+        You have not setup the Yoma TypeScript Language Service Plugin. Add this to your compiler options:
 
-            "plugins": [{ "name": "${NEXUS_TS_LSP_IMPORT_ID}" }]
+            "plugins": [{ "name": "${YOMA_TS_LSP_IMPORT_ID}" }]
       ` + EOL
     )
   }
@@ -136,13 +136,13 @@ export async function readOrScaffoldTsconfig(input: {
   if (tsconfigParsed.options.tsBuildInfoFile) {
     delete tsconfigParsed.options.tsBuildInfoFile
     const setting = renderSetting(`compilerOptions.tsBuildInfoFile`)
-    log.warn(`You have set ${setting} but it will be ignored by Nexus. Nexus manages this value internally.`)
+    log.warn(`You have set ${setting} but it will be ignored by Yoma. Yoma manages this value internally.`)
   }
 
   if (tsconfigParsed.options.incremental) {
     delete tsconfigParsed.options.incremental
     const setting = renderSetting('compilerOptions.incremental')
-    log.warn(`You have set ${setting} but it will be ignored by Nexus. Nexus manages this value internally.`)
+    log.warn(`You have set ${setting} but it will be ignored by Yoma. Yoma manages this value internally.`)
   }
 
   const { types } = tsconfigParsed.options
@@ -151,7 +151,7 @@ export async function readOrScaffoldTsconfig(input: {
     delete tsconfigParsed.options.types
     const setting = renderSetting('compilerOptions.types')
     log.error(
-      `You have set ${setting} but Nexus does not support it. If you do not remove your customization you may/will (e.g. VSCode) see inconsistent results between your IDE and what Nexus tells you at build time. If you would like to see Nexus support this setting please chime in at https://github.com/graphql-nexus/nexus/issues/1036.`
+      `You have set ${setting} but Yoma does not support it. If you do not remove your customization you may/will (e.g. VSCode) see inconsistent results between your IDE and what Yoma tells you at build time. If you would like to see Yoma support this setting please chime in at https://github.com/yomajs/yoma/issues/new?assignees=&labels=type%2Ffeat&template=10-feature.md&title=.`
     )
   }
 
@@ -162,8 +162,8 @@ export async function readOrScaffoldTsconfig(input: {
   const { typeRoots } = tsconfigSourceOriginal.compilerOptions!
   const nameAtTypes = 'node_modules/@types'
   const nameTypes = 'types'
-  const explainAtTypes = `"${nameAtTypes}" is the TypeScript default for types packages and where Nexus outputs typegen to.`
-  const explainTypes = `"${nameTypes}" is the Nexus convention for _local_ types packages.`
+  const explainAtTypes = `"${nameAtTypes}" is the TypeScript default for types packages and where Yoma outputs typegen to.`
+  const explainTypes = `"${nameTypes}" is the Yoma convention for _local_ types packages.`
   if (!typeRoots) {
     const setting = renderSetting('compilerOptions.typeRoots')
     const val = renderVal([nameAtTypes, nameTypes])
@@ -203,7 +203,7 @@ export async function readOrScaffoldTsconfig(input: {
 
   /**
    * Setup types declaration file support.
-   * Work with local tsconfig source contents as the Nexus convention is
+   * Work with local tsconfig source contents as the Yoma convention is
    * supporting a types.d.ts file at project root and "include" is relative to
    * the tsconfig it shows up in. Thus We want to lint for local config
    * presence, not inherited.
@@ -214,7 +214,7 @@ export async function readOrScaffoldTsconfig(input: {
     const val = renderVal('types.d.ts')
     const setting = renderVal('include')
     log.warn(
-      `Please add ${val} to your ${setting} array. If you do not then results from Nexus and your IDE will not agree if the declaration file is used in your project.`
+      `Please add ${val} to your ${setting} array. If you do not then results from Yoma and your IDE will not agree if the declaration file is used in your project.`
     )
   }
 
@@ -250,7 +250,7 @@ export async function readOrScaffoldTsconfig(input: {
     log.warn(
       `Please set ${setting} to true. This will ensure you do not accidentally emit using ${chalk.yellowBright(
         `\`$ tsc\``
-      )}. Use ${chalk.yellowBright(`\`$ nexus build\``)} to build your app and emit JavaScript.`
+      )}. Use ${chalk.yellowBright(`\`$ yoma build\``)} to build your app and emit JavaScript.`
     )
   }
 
@@ -258,7 +258,7 @@ export async function readOrScaffoldTsconfig(input: {
     tsconfigParsed.options.esModuleInterop = true
     const setting = renderSetting('compilerOptions.esModuleInterop')
     log.warn(
-      `Please set ${setting} to true. This will ensure that some libraries that Nexus uses will properly be transpiled to Javascript.`
+      `Please set ${setting} to true. This will ensure that some libraries that Yoma uses will properly be transpiled to Javascript.`
     )
   }
 
@@ -309,7 +309,7 @@ export async function readOrScaffoldTsconfig(input: {
 }
 
 /**
- * Create tsconfig source contents, optimized for Nexus
+ * Create tsconfig source contents, optimized for Yoma
  */
 export function tsconfigTemplate(input: { sourceRootRelative: string; outRootRelative: string }): string {
   // Render empty source root as '.' which is what node path module relative func will do when same dir.
@@ -322,9 +322,9 @@ export function tsconfigTemplate(input: { sourceRootRelative: string; outRootRel
       strict: true,
       rootDir: sourceRelative,
       noEmit: true,
-      plugins: [{ name: 'nexus/typescript-language-service' }],
+      plugins: [{ name: 'yoma/typescript-language-service' }],
       typeRoots: ['node_modules/@types', 'types'],
-      esModuleInterop: true
+      esModuleInterop: true,
     },
     include: ['types.d.ts', sourceRelative],
   }

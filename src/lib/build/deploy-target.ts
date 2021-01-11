@@ -32,7 +32,7 @@ export function normalizeTarget(inputDeployTarget: string | undefined): Supporte
 
   if (!SUPPORTED_DEPLOY_TARGETS.includes(deployTarget as any)) {
     fatal(
-      `--deployment \`${deployTarget}\` is not supported by nexus. Supported deployment targets: ${formattedSupportedDeployTargets}}`
+      `--deployment \`${deployTarget}\` is not supported by yoma. Supported deployment targets: ${formattedSupportedDeployTargets}}`
     )
   }
 
@@ -180,16 +180,16 @@ function validateHeroku(layout: Layout): ValidatorResult {
     if (!pcfg.scripts?.build) {
       log.error('A `build` script is needed in your `package.json` file.')
       log.error(
-        `Please add the following to your \`package.json\` file: "scripts": { "build": "nexus build -d heroku" }`
+        `Please add the following to your \`package.json\` file: "scripts": { "build": "yoma build -d heroku" }`
       )
       console.log()
       isValid = false
     }
 
-    // Make sure the build script is using nexus build
-    if (pcfg.scripts?.build && !pcfg.scripts.build.includes('nexus build')) {
+    // Make sure the build script is using yoma build
+    if (pcfg.scripts?.build && !pcfg.scripts.build.includes('yoma build')) {
       log.error(
-        'Please make sure your `build` script in your `package.json` file runs the command `nexus build -d heroku`'
+        'Please make sure your `build` script in your `package.json` file runs the command `yoma build -d heroku`'
       )
       console.log()
       isValid = false
@@ -222,7 +222,7 @@ function validateHeroku(layout: Layout): ValidatorResult {
 }
 
 const TARGET_TO_POST_BUILD_MESSAGE: Record<SupportedTargets, string> = {
-  vercel: `Please run \`vercel\` or \`vc\` to deploy your nexus server. Your endpoint will be available at http://<id>.now.sh/graphql`,
+  vercel: `Please run \`vercel\` or \`vc\` to deploy your yoma server. Your endpoint will be available at http://<id>.now.sh/graphql`,
   heroku: `\
 Please run the following commands to deploy to heroku:
 

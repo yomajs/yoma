@@ -1,1 +1,1 @@
-export { buildNexusApp, writeStartModule } from './build'
+export { buildYomaApp, writeStartModule } from './build'

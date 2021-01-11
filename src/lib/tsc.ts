@@ -44,7 +44,7 @@ export function createTSProject(layout: Layout, options?: ProgramOptions): Eithe
     compilerOptions: tsconfigOptions,
   })
 
-  project.addSourceFilesAtPaths(layout.nexusModules.concat(layout.app.exists ? [layout.app.path] : []))
+  project.addSourceFilesAtPaths(layout.yomaModules.concat(layout.app.exists ? [layout.app.path] : []))
 
   // If the program has imports to modules outside the source root then TS out root will be forced
   // into an unexpected layout, and consequently the start module imports will fail. Check for this
@@ -71,7 +71,7 @@ export function deleteTSIncrementalFile(layout: Layout) {
 }
 
 export function getTSIncrementalFilePath(layout: Layout) {
-  return layout.projectPath('node_modules', '.nexus', 'cache.tsbuildinfo')
+  return layout.projectPath('node_modules', '.yoma', 'cache.tsbuildinfo')
 }
 
 interface CompileOptions {
@@ -345,7 +345,7 @@ export function findModulesThatImportModule(project: TSM.Project, id: string) {
   const data: ModulesWithImportSearchResult[] = []
 
   for (const sourceFile of project.getSourceFiles()) {
-    // TODO: if project folder contains "node_modules" in it, nexus modules won't be found
+    // TODO: if project folder contains "node_modules" in it, yoma modules won't be found
     if (sourceFile.getFilePath().includes('node_modules')) continue
     let entry: ModulesWithImportSearchResult
     for (const importDec of sourceFile.getImportDeclarations()) {

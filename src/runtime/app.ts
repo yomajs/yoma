@@ -44,10 +44,10 @@ export interface App {
    */
   use(plugin: Plugin.Plugin): void
   /**
-   * Run this to gather the final state of all Nexus api interactions. This method
+   * Run this to gather the final state of all Yoma api interactions. This method
    * is experimental. It provides experimental support for NextJS integration.
    *
-   * In a regular Nexus app, you should not need to use this method.
+   * In a regular Yoma app, you should not need to use this method.
    *
    * @experimental
    */
@@ -215,7 +215,7 @@ export function create(): App {
      */
     app.settings.change({
       logger: {
-        filter: 'app:*, nexus:*@info+, *@warn+',
+        filter: 'app:*, yoma:*@info+, *@warn+',
         pretty: { timeDiff: false },
       },
     })

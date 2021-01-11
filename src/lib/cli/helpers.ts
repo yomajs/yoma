@@ -36,7 +36,7 @@ export function generateHelpForCommandIndex(
   return `
 ${chalk.bold('Usage:')}
     
-${chalk.gray('$')} nexus ${commandName} [${subCommands.map((c) => c.name).join('|')}]
+${chalk.gray('$')} yoma ${commandName} [${subCommands.map((c) => c.name).join('|')}]
 
 ${chalk.bold('Commands:')}
 
@@ -56,7 +56,7 @@ ${description}
 
 ${chalk.bold('Usage:')}
     
-${chalk.gray('$')} nexus ${commandName} [options]
+${chalk.gray('$')} yoma ${commandName} [options]
 
 ${chalk.bold('Options:')}
 

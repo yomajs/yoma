@@ -3,7 +3,7 @@ import { arg, Command, isError } from '../../lib/cli'
 import { create } from '../../lib/layout'
 import { rootLogger } from '../../lib/nexus-logger'
 import { fatal } from '../../lib/process'
-import { getNexusReport } from '../../lib/report'
+import { getYomaReport } from '../../lib/report'
 
 const log = rootLogger.child('cli').child('build')
 
@@ -21,7 +21,7 @@ export class Report implements Command {
     }
 
     const layout = await create()
-    const report = await getNexusReport(layout)
+    const report = await getYomaReport(layout)
 
     if (args['--json']) {
       console.log(JSON.stringify(report))

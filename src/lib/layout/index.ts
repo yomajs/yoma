@@ -5,7 +5,7 @@ export {
   createFromData,
   Data,
   findAppModule,
-  findNexusModules,
+  findYomaModules,
   Layout,
   scanProjectType,
 } from './layout'

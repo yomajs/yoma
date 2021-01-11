@@ -5,33 +5,33 @@ import { extractContextTypes } from './extractor'
 import { DEFAULT_CONTEXT_TYPES } from './typegen'
 
 describe('syntax cases', () => {
-  it('will extract from import name of nexus default export', () => {
+  it('will extract from import name of yoma default export', () => {
     expect(
       extractOrThrow(
         `
-          import n from 'nexus'
+          import n from 'yoma'
           n.schema.addToContext(req => ({ a: 1 }))
         `,
         { noImport: true }
       ).types.length
     ).toEqual(1)
   })
-  it('will extract from named import "schema" of nexus', () => {
+  it('will extract from named import "schema" of yoma', () => {
     expect(
       extractOrThrow(
         `
-          import { schema } from 'nexus'
+          import { schema } from 'yoma'
           schema.addToContext(req => ({ a: 1 }))
         `,
         { noImport: true }
       ).types.length
     ).toEqual(1)
   })
-  it('will extract from named aliased import "schema" of nexus', () => {
+  it('will extract from named aliased import "schema" of yoma', () => {
     expect(
       extractOrThrow(
         `
-          import { schema as s } from 'nexus'
+          import { schema as s } from 'yoma'
           s.addToContext(req => ({ a: 1 }))
         `,
         { noImport: true }
@@ -42,9 +42,9 @@ describe('syntax cases', () => {
     expect(
       extractOrThrow(
         `
-          import app from 'nexus'
-          import { schema } from 'nexus'
-          import { schema as s } from 'nexus'
+          import app from 'yoma'
+          import { schema } from 'yoma'
+          import { schema as s } from 'yoma'
           app.schema.addToContext(req => ({ a: 1 }))
           schema.addToContext(req => ({ a: 1 }))
           s.addToContext(req => ({ a: 1 }))
@@ -910,7 +910,7 @@ function extract(source: string, opts: Opts = { noImport: false }) {
   })
 
   if (!opts.noImport) {
-    source = `import { schema } from 'nexus'\n\n${source}`
+    source = `import { schema } from 'yoma'\n\n${source}`
   }
 
   const moduleName = letters.shift()!

@@ -195,7 +195,7 @@ export type SettingsInput = {
    *
    * @remarks
    *
-   * Under the hood Nexus' server implementation is powered by Apollo Server. You will not find all Apollo Server options here however. Only the ones that are particular to Apollo. Nexus does not consider generic server setting areas like CORS and GraphQL Playground as being Apollo settings.
+   * Under the hood Yoma's server implementation is powered by Apollo Server. You will not find all Apollo Server options here however. Only the ones that are particular to Apollo. Yoma does not consider generic server setting areas like CORS and GraphQL Playground as being Apollo settings.
    */
   apollo?: {
     /**
@@ -381,7 +381,7 @@ export const createServerSettingsManager = () =>
       },
       host: {
         initial() {
-          return process.env.NEXUS_HOST ?? process.env.HOST ?? undefined
+          return process.env.YOMA_HOST ?? process.env.HOST ?? undefined
         },
       },
       path: {
@@ -408,8 +408,8 @@ export const createServerSettingsManager = () =>
       },
       port: {
         initial() {
-          return typeof process.env.NEXUS_PORT === 'string'
-            ? parseInt(process.env.NEXUS_PORT, 10)
+          return typeof process.env.YOMA_PORT === 'string'
+            ? parseInt(process.env.YOMA_PORT, 10)
             : typeof process.env.PORT === 'string'
             ? // e.g. Heroku convention https://stackoverflow.com/questions/28706180/setting-the-port-for-node-js-server-on-heroku
               parseInt(process.env.PORT, 10)

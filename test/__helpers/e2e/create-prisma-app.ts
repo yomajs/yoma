@@ -20,8 +20,8 @@ export async function e2ePrismaApp(app: E2EContext) {
   let output: string
   let response: any
 
-  if (app.usingLocalNexus?.createAppWithThis) {
-    await app.localNexusCreateApp!({
+  if (app.usingLocalYoma?.createAppWithThis) {
+    await app.localYomaCreateApp!({
       prismaPluginVersion: 'next',
       databaseType: 'SQLite',
       packageManagerType: 'yarn',
@@ -30,17 +30,17 @@ export async function e2ePrismaApp(app: E2EContext) {
       .toPromise()
   } else {
     await app
-      .npxNexusCreateApp({
+      .npxYomaCreateApp({
         prismaPluginVersion: 'next',
         databaseType: 'SQLite',
         packageManagerType: 'yarn',
-        nexusVersion: app.useNexusVersion,
+        yomaVersion: app.useYomaVersion,
       })
       .pipe(refCount(), takeUntilServerListening)
       .toPromise()
   }
 
-  proc = app.nexus(['dev'])
+  proc = app.yoma(['dev'])
   sub = proc.connect()
 
   await proc.pipe(takeUntilServerListening).toPromise()
@@ -64,6 +64,6 @@ export async function e2ePrismaApp(app: E2EContext) {
 
   log.warn('run build')
 
-  output = await app.nexus(['build']).pipe(refCount(), bufferOutput).toPromise()
+  output = await app.yoma(['build']).pipe(refCount(), bufferOutput).toPromise()
   expect(output).toContain('success')
 }

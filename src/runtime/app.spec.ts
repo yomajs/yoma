@@ -109,7 +109,7 @@ describe('lifecycle', () => {
       await app.start()
       expect(fn.mock.calls[0][0].schema instanceof GraphQL.GraphQLSchema).toBeTrue()
     })
-    it('if callback throws error then Nexus shows a nice error', async () => {
+    it('if callback throws error then Yoma shows a nice error', async () => {
       app.on.start(() => {
         throw new Error('error from user code')
       })
@@ -131,7 +131,7 @@ describe('checks', () => {
     expect(spy.log.mock.calls).toMatchInlineSnapshot(`
       Array [
         Array [
-          "▲ nexus:schema Your GraphQL schema is empty. This is normal if you have not defined any GraphQL types yet. If you did however, check that your files are contained in the same directory specified in the \`rootDir\` property of your tsconfig.json file.
+          "▲ yoma:schema Your GraphQL schema is empty. This is normal if you have not defined any GraphQL types yet. If you did however, check that your files are contained in the same directory specified in the \`rootDir\` property of your tsconfig.json file.
       ",
         ],
       ]

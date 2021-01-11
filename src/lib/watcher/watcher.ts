@@ -68,7 +68,7 @@ export async function createWatcher(options: Options): Promise<Watcher> {
 
   // TODO watch for changes to tsconfig and take correct action
   // TODO watch for changes to package json and take correct action (imagine
-  // there could be nexus config in there)
+  // there could be yoma config in there)
   // TODO restart should take place following npm install/remove yarn
   // add/remove/install etc.
   // TODO need a way to test file matching given patterns. Hard to get right,

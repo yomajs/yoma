@@ -13,7 +13,7 @@ export type ExecScenario = {
    */
   toolProject: boolean
   /**
-   * Tells you if the local nexus bin is installed or not.
+   * Tells you if the local yoma bin is installed or not.
    */
   toolCurrentlyPresentInNodeModules: boolean
   /**

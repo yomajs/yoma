@@ -130,5 +130,5 @@ jobs:
   #       env:
   #         LOG_LEVEL: trace
   #       run: |
-  #         export E2E_NEXUS_VERSION=$(cat published/result.json | jq -r '.data.release.version')
+  #         export E2E_YOMA_VERSION=$(cat published/result.json | jq -r '.data.release.version')
   #         yarn test e2e/${{matrix.test-case}}

@@ -57,12 +57,12 @@ export const printStack = ({ callsite }: ErrorArgs): PrintStackResult => {
     const trace = stack.find(
       (t) =>
         t.file &&
-        !t.file.includes('node_modules/nexus') &&
+        !t.file.includes('node_modules/yoma') &&
         !t.file.includes('node_modules/@nexus/schema') &&
         !t.file.includes('node_modules/graphql')
     )
     if (
-      process.env.NEXUS_STAGE === 'dev' &&
+      process.env.YOMA_STAGE === 'dev' &&
       trace &&
       trace.file &&
       trace.lineNumber &&

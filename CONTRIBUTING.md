@@ -1,13 +1,13 @@
-# Nexus Contributors Guide
+# Yoma Contributors Guide
 
 Hey 👋
 
-Thanks for making or considering to make a contribution to Nexus. This document assumes you are already familiar with Nexus. If not, then before contributing you might want to brush up on what Nexus is. Start [here](http://nexusjs.org).
+Thanks for making or considering to make a contribution to Yoma. This document assumes you are already familiar with Yoma. If not, then before contributing you might want to brush up on what Yoma is. Start [here](http://yoma.dev).
 
 There are many ways you can help:
 
-- Get active in [community discussions](https://nxs.li/discussions) and help other users
-- [Create bug reports](https://nxs.li/issues/create/bug) when you find an issue
+- Get active in [community discussions](https://github.com/yomajs/yoma/discussions) and help other users
+- [Create bug reports](https://github.com/yomajs/yoma/issues) when you find an issue
 - [Create feature requests](https://nxs.li/issues/create/feature) when you hit a use-case that isn't served well or at all
 - Improve the documentation
 
@@ -84,7 +84,7 @@ yarn dev:test      # watch mode
 
 - Unit tests run in CI against every commit.
 
-- /!\ Make sure you have compiled `nexus` with `yarn build` before running the watcher unit tests
+- /!\ Make sure you have compiled `yoma` with `yarn build` before running the watcher unit tests
 
 ##### System
 
@@ -110,13 +110,13 @@ yarn test e2e/kitchen
 
 - Live under `/test/e2e`
 
-- The `E2E_NEXUS_VERSION` envar controls which version of Nexus to install during app creation
+- The `E2E_YOMA_VERSION` envar controls which version of Yoma to install during app creation
 
-- The `create-prisma` e2e test always uses the `next` version of `nexus-plugin-prisma`. This is so that pre-releases can be made to fix Nexus PRs ([example](https://github.com/graphql-nexus/nexus/pull/859)).
+- The `create-prisma` e2e test always uses the `next` version of `nexus-plugin-prisma`. This is so that pre-releases can be made to fix Yoma PRs ([example](https://github.com/graphql-nexus/nexus/pull/859)).
 
 - E2E tests run in CI against every commit _after the package has been published_. These are preview and pr releases so its acceptable, and doing it this way provides a true smoke test of if the _real_ user journey works end to end.
 
-- E2E tests can be run on your machine. They default to working with `latest` dist-tag. Use `E2E_NEXUS_VERSION` env var to set the desired version to test against.
+- E2E tests can be run on your machine. They default to working with `latest` dist-tag. Use `E2E_YOMA_VERSION` env var to set the desired version to test against.
 
 <br/>
 
@@ -166,12 +166,9 @@ yarn test e2e/kitchen
 
 ##### Where Things Are
 
-- The main website is at https://nexusjs.org
-- The website is powered by [Gatsby](https://gatsbyjs.org)
-- The website is deployed to Netlify
-- The website source lives under `/website`
-- The Documentation source lives under `/website/content`
-- You should not touch website source other than content. It is managed by the Prisma web team.
+- The main website is at https://yoma.dev
+- The website source lives under `/docs`
+- The Documentation source lives under `/docs/pages`
 
 ##### Deployment
 
@@ -182,9 +179,9 @@ yarn test e2e/kitchen
 
 - We use the Prisma style guide https://www.prisma.io/docs/more/style-guide
 - All MDX components documented there are usable here
-- The website is not versioned. The website content should always reflect the current nexus stable release. It should never reflect the Nexus canary release. Until we have a way on the website to select which version of the docs to read you must use the follow documentation content update protocol:
+- The website is not versioned. The website content should always reflect the current yoma stable release. It should never reflect the Yoma canary release. Until we have a way on the website to select which version of the docs to read you must use the follow documentation content update protocol:
 
-  - A PR should not touch the website docs in anyway that would make it untrue for current Nexus stable users.
+  - A PR should not touch the website docs in anyway that would make it untrue for current Yoma stable users.
   - A PR that makes it so documentation needs or should be updated should be done a separate documentation PR.
   - There is exactly ONE documentation PR per sprint.
   - If your PR is the first of the sprint that requires documentation changes and thus there is no documentation PR yet open for that sprint then you should open that PR yourself.
@@ -210,10 +207,10 @@ Refer to https://github.com/graphql-nexus/examples
 
 ##### Developing `create app`
 
-The strategy is to use a file path for the nexus dependency.
+The strategy is to use a file path for the yoma dependency.
 
 The pattern is thus:
 
 ```
-CREATE_APP_CHOICE_NEXUS_VERSION='<path/to/nexus>' node <path/to/nexus>/dist/cli/main.js create app
+CREATE_APP_CHOICE_YOMA_VERSION='<path/to/yoma>' node <path/to/yoma>/dist/cli/main.js create app
 ```

@@ -9,12 +9,12 @@ import { isReflectionStage } from './stage'
 import { writeArtifacts } from './typegen'
 
 async function run() {
-  if (!process.env.NEXUS_REFLECTION_LAYOUT) {
-    throw new Error('process.env.NEXUS_REFLECTION_LAYOUT is required')
+  if (!process.env.YOMA_REFLECTION_LAYOUT) {
+    throw new Error('process.env.YOMA_REFLECTION_LAYOUT is required')
   }
 
   const app = require('../../').default as App.PrivateApp
-  const layout = Layout.createFromData(JSON.parse(process.env.NEXUS_REFLECTION_LAYOUT) as Layout.Data)
+  const layout = Layout.createFromData(JSON.parse(process.env.YOMA_REFLECTION_LAYOUT) as Layout.Data)
   const appRunner = createDevAppRunner(layout, app, {
     catchUnhandledErrors: false,
   })

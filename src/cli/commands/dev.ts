@@ -92,11 +92,11 @@ export class Dev implements Command {
         addToWatcherSettings: {},
         async onBeforeWatcherStartOrRestart(change) {
           if (change.type === 'change') {
-            const nexusModules = Layout.findNexusModules(
+            const yomaModules = Layout.findYomaModules(
               layout.tsConfig,
               layout.app.exists ? layout.app.path : null
             )
-            layout.update({ nexusModules })
+            layout.update({ yomaModules })
           }
 
           if (
@@ -136,7 +136,7 @@ export class Dev implements Command {
 
   help() {
     return stripIndent`
-        Usage: nexus dev [flags]
+        Usage: yoma dev [flags]
   
         Develop your application in watch mode
   

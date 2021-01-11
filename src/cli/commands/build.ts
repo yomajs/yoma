@@ -1,5 +1,5 @@
 import { stripIndent } from 'common-tags'
-import { buildNexusApp } from '../../lib/build'
+import { buildYomaApp } from '../../lib/build'
 import { formattedSupportedDeployTargets } from '../../lib/build/deploy-target'
 import { arg, Command, isError } from '../../lib/cli'
 import { rootLogger } from '../../lib/nexus-logger'
@@ -32,7 +32,7 @@ export class Build implements Command {
       return this.help()
     }
 
-    await buildNexusApp({
+    await buildYomaApp({
       target: args['--deployment'],
       output: args['--output'],
       stage: args['--stage'],
@@ -43,9 +43,9 @@ export class Build implements Command {
 
   help() {
     return stripIndent`
-      Usage: nexus build [flags]
+      Usage: yoma build [flags]
 
-      Build a production-ready nexus server
+      Build a production-ready yoma server
 
       Flags:
         -o,     --output    Relative path to output directory

@@ -41,7 +41,7 @@ export type ScanResult = {
   }
   sourceRoot: string
   projectRoot: string
-  nexusModules: string[]
+  yomaModules: string[]
   tsConfig: {
     content: ParsedCommandLine
     path: string
@@ -85,7 +85,7 @@ export type Layout = Data & {
 }
 
 interface UpdateableLayoutData {
-  nexusModules?: string[]
+  yomaModules?: string[]
 }
 
 interface Options {
@@ -94,7 +94,7 @@ interface Options {
    */
   buildOutputDir?: string
   /**
-   * Path to the nexus entrypoint. Can be absolute or relative.
+   * Path to the yoma entrypoint. Can be absolute or relative.
    */
   entrypointPath?: string
   /**
@@ -166,7 +166,7 @@ export async function create(options?: Options): Promise<Either<Error, Layout>> 
   if (isLeft(errTsConfig)) return errTsConfig
   const tsConfig = errTsConfig.right
 
-  const nexusModules = findNexusModules(tsConfig, maybeAppModule)
+  const yomaModules = findYomaModules(tsConfig, maybeAppModule)
   const project = packageJson
     ? {
         name: packageJson.content.name,
@@ -184,14 +184,14 @@ export async function create(options?: Options): Promise<Either<Error, Layout>> 
         : ({ exists: true, path: maybeAppModule } as const),
     projectRoot,
     sourceRoot: Path.normalize(tsConfig.content.options.rootDir!),
-    nexusModules,
+    yomaModules,
     project,
     tsConfig,
     packageManagerType,
   }
 
-  if (scanResult.app.exists === false && scanResult.nexusModules.length === 0) {
-    return left(noAppOrNexusModules({}))
+  if (scanResult.app.exists === false && scanResult.yomaModules.length === 0) {
+    return left(noAppOrYomaModules({}))
   }
 
   const buildInfo = getBuildLayout(options?.buildOutputDir, scanResult, options?.asBundle)
@@ -241,9 +241,9 @@ export function createFromData(layoutData: Data): Layout {
       projectRoot: layoutData.projectRoot,
     }),
     update(options) {
-      if (options.nexusModules) {
-        layout.nexusModules = options.nexusModules
-        layout.data.nexusModules = options.nexusModules
+      if (options.yomaModules) {
+        layout.yomaModules = options.yomaModules
+        layout.data.yomaModules = options.yomaModules
       }
     },
   }
@@ -252,26 +252,26 @@ export function createFromData(layoutData: Data): Layout {
 }
 
 const checks = {
-  no_app_or_nexus_modules: {
+  no_app_or_yoma_modules: {
     code: 'no_app_or_schema_modules',
     // prettier-ignore
     explanations: {
-      problem: `We could not find any modules that imports 'nexus' or ${CONVENTIONAL_ENTRYPOINT_FILE_NAME} entrypoint`,
+      problem: `We could not find any modules that imports \`yoma\` or ${CONVENTIONAL_ENTRYPOINT_FILE_NAME} entrypoint`,
       solution: stripIndent`
         Please do one of the following:
 
-          1. Create a file, import { schema } from 'nexus' and write your GraphQL type definitions in it.
+          1. Create a file, import { schema } from \`yoma\` and write your GraphQL type definitions in it.
           2. Create an ${Chalk.yellow(CONVENTIONAL_ENTRYPOINT_FILE_NAME)} file.
     `,
     }
   },
 }
 
-const noAppOrNexusModules = exceptionType<'no_app_or_schema_modules', {}>(
+const noAppOrYomaModules = exceptionType<'no_app_or_schema_modules', {}>(
   'no_app_or_schema_modules',
-  checks.no_app_or_nexus_modules.explanations.problem +
+  checks.no_app_or_yoma_modules.explanations.problem +
     OS.EOL +
-    checks.no_app_or_nexus_modules.explanations.solution
+    checks.no_app_or_yoma_modules.explanations.solution
 )
 
 /**
@@ -285,8 +285,8 @@ export function findAppModule(opts: { projectRoot: string }): string | null {
 }
 
 /**
- * Detect whether or not CWD is inside a nexus project. nexus project is
- * defined as there being a package.json in or above CWD with nexus as a
+ * Detect whether or not CWD is inside a yoma project. Yoma project is
+ * defined as there being a package.json in or above CWD with `yoma` as a
  * direct dependency.
  */
 export async function scanProjectType(opts: {
@@ -295,7 +295,7 @@ export async function scanProjectType(opts: {
   | { type: 'unknown' | 'new' }
   | { type: 'malformed_package_json'; error: PJ.MalformedPackageJsonError }
   | {
-      type: 'NEXUS_project' | 'node_project'
+      type: 'YOMA_project' | 'node_project'
       packageJson: {}
       packageJsonLocation: { path: string; dir: string }
     }
@@ -317,9 +317,9 @@ export async function scanProjectType(opts: {
   }
 
   const pjc = rightOrThrow(packageJson.content) // will never throw, check above
-  if (pjc.dependencies?.['nexus']) {
+  if (pjc.dependencies?.['yoma']) {
     return {
-      type: 'NEXUS_project',
+      type: 'YOMA_project',
       packageJson: packageJson,
       packageJsonLocation: packageJson,
     }
@@ -359,11 +359,11 @@ function normalizeEntrypoint(
 }
 
 /**
- * Find the modules in the project that import nexus
+ * Find the modules in the project that import yoma
  */
-export function findNexusModules(tsConfig: Data['tsConfig'], maybeAppModule: string | null): string[] {
+export function findYomaModules(tsConfig: Data['tsConfig'], maybeAppModule: string | null): string[] {
   try {
-    log.trace('finding nexus modules')
+    log.trace('finding yoma modules')
     const project = new tsm.Project({
       addFilesFromTsConfig: false, // Prevent ts-morph from re-parsing the tsconfig
     })
@@ -373,25 +373,25 @@ export function findNexusModules(tsConfig: Data['tsConfig'], maybeAppModule: str
     const modules = project
       .getSourceFiles()
       .filter((s) => {
-        // Do not add app module to nexus modules
+        // Do not add app module to yoma modules
         // todo normalize because ts in windows is like "C:/.../.../" instead of "C:\...\..." ... why???
         if (Path.normalize(s.getFilePath().toString()) === maybeAppModule) {
           return false
         }
 
-        return s.getImportDeclaration('nexus') !== undefined
+        return s.getImportDeclaration('yoma') !== undefined
       })
       .map((s) => {
         // todo normalize because ts in windows is like "C:/.../.../" instead of "C:\...\..." ... why???
         return Path.normalize(s.getFilePath().toString())
       })
 
-    log.trace('done finding nexus modules', { modules })
+    log.trace('done finding yoma modules', { modules })
 
     return modules
   } catch (error) {
     // todo return left
-    log.error('We could not find your nexus modules', { error })
+    log.error('We could not find your yoma modules', { error })
     return []
   }
 }

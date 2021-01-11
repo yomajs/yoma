@@ -9,7 +9,7 @@ const log = rootLogger.child('backingTypes')
 export const DEFAULT_RELATIVE_BACKING_TYPES_TYPEGEN_PATH = Path.join(
   'node_modules',
   '@types',
-  'typegen-nexus-backing-types',
+  'typegen-yoma-backing-types',
   'index.d.ts'
 )
 
@@ -28,7 +28,7 @@ ${typeNames.map((t) => `  | '${t}'`).join('\n')}
 
   output += `\
 declare global {
-  export interface NexusBackingTypes {
+  export interface YomaBackingTypes {
     types: BackingTypes
   }
 }

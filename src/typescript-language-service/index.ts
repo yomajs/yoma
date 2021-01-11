@@ -7,11 +7,11 @@ type Modules = {
 module.exports = function init(modules: Modules) {
   function create(info: ts.server.PluginCreateInfo) {
     function log(...x: any[]) {
-      return info.project.log('nexus: ' + x.join(' | '))
+      return info.project.log('yoma: ' + x.join(' | '))
     }
 
     function dump(...x: any[]) {
-      return x.map(i).map((x) => info.project.log('nexus: ' + x))
+      return x.map(i).map((x) => info.project.log('yoma: ' + x))
     }
 
     log('creating')
@@ -31,13 +31,13 @@ module.exports = function init(modules: Modules) {
       log(prior.entries.length, fileName, position)
 
       /**
-       * Filter out entries from nexus lib.
+       * Filter out entries from yoma lib.
        *
        * For example "log" has "importAndLoadRuntimePlugins" among completions.
        */
       prior.entries = prior.entries.filter((c) => {
         if (!c.source) return true
-        const match = c.source.match(/.*\/nexus\/(.+)$/)
+        const match = c.source.match(/.*\/yoma\/(.+)$/)
         if (!match) return true
         log('found completion')
         const publicAPI =
@@ -52,11 +52,11 @@ module.exports = function init(modules: Modules) {
       })
 
       /**
-       * Boost value of nexus runtime exports
+       * Boost value of yoma runtime exports
        * todo so far this appears to do nothing actually
        */
       prior.entries.forEach((c) => {
-        if (c.source?.match(/.*\/nexus\/dist\/runtime\/index/)) {
+        if (c.source?.match(/.*\/yoma\/dist\/runtime\/index/)) {
           c.isRecommended = true
         }
       })

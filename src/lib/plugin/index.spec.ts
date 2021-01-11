@@ -116,7 +116,7 @@ describe('plugin', () => {
     expect(isLeft(result)).toBe(true)
     if (isLeft(result)) {
       expect(result.left).toMatchInlineSnapshot(`
-        [Error: Ignoring the testtime contribution from the Nexus plugin \`nexus\` because its contribution is not an object.
+        [Error: Ignoring the testtime contribution from the Yoma plugin \`yoma\` because its contribution is not an object.
                 This is likely to cause an error in your tests. Please reach out to the author of the plugin to fix the issue.]
       `)
     }

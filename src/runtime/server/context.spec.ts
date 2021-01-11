@@ -2,10 +2,10 @@ import { makeSchema, queryType } from '@nexus/schema'
 import { IncomingMessage, ServerResponse } from 'http'
 import { Socket } from 'net'
 import { createRequestHandlerGraphQL } from './handler-graphql'
-import { NexusRequestHandler } from './server'
+import { YomaRequestHandler } from './server'
 import { errorFormatter } from './error-formatter'
 
-let handler: NexusRequestHandler
+let handler: YomaRequestHandler
 let socket: Socket
 let req: IncomingMessage
 let res: ServerResponse

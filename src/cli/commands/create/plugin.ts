@@ -15,10 +15,10 @@ const log = rootLogger.child('cli').child('create').child('plugin')
 export default class Plugin implements Command {
   async parse() {
     let needsChangeDir = false
-    log.info('Scaffolding a nexus plugin')
+    log.info('Scaffolding a yoma plugin')
 
     const pluginName = await askUserPluginName()
-    const pluginPackageName = 'nexus-plugin-' + pluginName
+    const pluginPackageName = 'yoma-plugin-' + pluginName
     const contents = await fs.listAsync()
     if (contents !== undefined && contents.length > 0) {
       log.info(`Creating directory ${pluginPackageName}...`)
@@ -47,7 +47,7 @@ export default class Plugin implements Command {
 
 
           \`\`\`
-          npm install ${pluginPackageName}
+          yarn install ${pluginPackageName}
           \`\`\`
 
           <br>
@@ -79,7 +79,7 @@ export default class Plugin implements Command {
         license: 'MIT',
         main: 'dist/index.js',
         module: `dist/${pluginPackageName}.esm.js`,
-        description: 'A Nexus framework plugin',
+        description: 'A Yoma framework plugin',
         files: ['dist'],
         scripts: {
           dev: 'tsc --watch',
@@ -138,7 +138,7 @@ export default class Plugin implements Command {
       fs.writeAsync(
         'src/worktime.ts',
         stripIndent`
-          import { WorktimePlugin } from 'nexus/plugin'
+          import { WorktimePlugin } from 'yoma/plugin'
 
           export const plugin: WorktimePlugin = () => project => {
             project.hooks.dev.onStart = async () => {
@@ -162,7 +162,7 @@ export default class Plugin implements Command {
       fs.writeAsync(
         'src/runtime.ts',
         stripIndent`
-          import { RuntimePlugin } from 'nexus/plugin'
+          import { RuntimePlugin } from 'yoma/plugin'
 
           export const plugin: RuntimePlugin = () => project => {
             return {
@@ -188,7 +188,7 @@ export default class Plugin implements Command {
     fs.writeAsync(
       'src/index.ts',
       stripIndent`
-      import { PluginEntrypoint } from 'nexus/plugin'
+      import { PluginEntrypoint } from 'yoma/plugin'
 
       export const plugin: PluginEntrypoint = () => ({
         packageJsonPath: require.resolve('../package.json'),
@@ -207,7 +207,7 @@ export default class Plugin implements Command {
     log.info(`Installing dev dependencies`)
     await proc.run(
       'yarn add --dev ' +
-        ['@types/jest', 'nexus', 'jest', 'jest-watch-typeahead', 'ts-jest', 'typescript', 'doctoc'].join(' ')
+        ['@types/jest', 'yoma', 'jest', 'jest-watch-typeahead', 'ts-jest', 'typescript', 'doctoc'].join(' ')
     )
 
     log.info(`Initializing git repository...`)
@@ -232,9 +232,9 @@ export default class Plugin implements Command {
  * Promp the user to give the plugin they are about to work on a name.
  */
 async function askUserPluginName(): Promise<string> {
-  // TODO prompt with "nexus-plugin-" text faded gray e.g.
+  // TODO prompt with "yoma-plugin-" text faded gray e.g.
   //
-  // > nexus-plugin-|
+  // > yoma-plugin-|
   //
   //
   // TODO check the npm registry to see if the name is already taken before
@@ -252,6 +252,6 @@ async function askUserPluginName(): Promise<string> {
     pluginName = response.pluginName
   }
 
-  const pluginNameNormalized = pluginName.replace(/^nexus-plugin-(.+)/, '$1')
+  const pluginNameNormalized = pluginName.replace(/^yoma-plugin-(.+)/, '$1')
   return pluginNameNormalized
 }

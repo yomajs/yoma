@@ -193,27 +193,27 @@ export class CLI implements Command {
   // TODO generate this from cli tree
   // static help template
   private static help = format(`
-    Code-First Type-Safe GraphQL Framework - https://nexusjs.org
+    Code-First Type-Safe GraphQL Framework - https://yoma.dev
 
     ${chalk.bold('Usage')}
 
-      ${chalk.dim(`$`)} nexus [command]
+      ${chalk.dim(`$`)} yoma [command]
 
     ${chalk.bold('Commands')}
 
-        create   Setup a ready-to-use nexus
+        create   Setup a ready-to-use yoma project
            dev   Develop your application in watch mode
          build   Build a production-ready server
 
     ${chalk.bold('Examples')}
 
-      Initialize files for a new nexus project
-      ${chalk.dim(`$`)} nexus create
+      Initialize files for a new yoma project
+      ${chalk.dim(`$`)} yoma create
 
       Start developing and watch your changes locally
-      ${chalk.dim(`$`)} nexus dev
+      ${chalk.dim(`$`)} yoma dev
 
       Build a production-ready server
-      ${chalk.dim(`$`)} nexus build
+      ${chalk.dim(`$`)} yoma build
   `)
 }

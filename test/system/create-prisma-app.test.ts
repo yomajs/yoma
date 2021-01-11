@@ -4,7 +4,7 @@ import { e2ePrismaApp } from '../__helpers/e2e'
 
 const ctx = createE2EContext({
   serverPort: 5002,
-  localNexus: {
+  localYoma: {
     path: Path.join(__dirname, '..', '..'),
     createAppWithThis: true,
     createPluginWithThis: true,

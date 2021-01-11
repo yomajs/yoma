@@ -1,9 +1,9 @@
-export const REFLECTION_ENV_VAR = 'NEXUS_REFLECTION'
+export const REFLECTION_ENV_VAR = 'YOMA_REFLECTION'
 
 export type ReflectionType = 'plugin' | 'typegen'
 
 /**
- * Set the NEXUS_REFLECTION environment variable
+ * Set the YOMA_REFLECTION environment variable
  */
 export function getReflectionStageEnv(type: ReflectionType) {
   return {

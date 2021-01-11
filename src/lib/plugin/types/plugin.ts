@@ -30,7 +30,7 @@ export interface DimensionEntrypointLocation {
  * Interface of the entrypoint of a plugin. This is what users will import to load your plugin.
  *
  * We recommend you named export that entrypoint with the suffix of your package name camel-cased.
- * eg: `nexus-plugin-amazing-auth` -> `export const amazingAuth: PluginEntrypoint = `
+ * eg: `yoma-plugin-amazing-auth` -> `export const amazingAuth: PluginEntrypoint = `
  *
  * By default, no settings can be passed to your plugin.
  *
@@ -105,7 +105,7 @@ export interface PluginWithoutSettings {
 export interface PluginWithRequiredSettings<Settings> extends PluginWithoutSettings {
   /**
    * The settings passed to your plugin. It is mandatory to pass these settings untouched.
-   * Nexus is reponsible for passing these settings to your plugin.
+   * Yoma is reponsible for passing these settings to your plugin.
    */
   settings: Settings
 }
@@ -113,7 +113,7 @@ export interface PluginWithRequiredSettings<Settings> extends PluginWithoutSetti
 export interface PluginWithOptionalSettings<Settings> extends PluginWithoutSettings {
   /**
    * The settings passed to your plugin. It is mandatory to pass these settings untouched.
-   * Nexus is reponsible for passing these settings to your plugin.
+   * Yoma is reponsible for passing these settings to your plugin.
    */
   settings: Settings | undefined
 }

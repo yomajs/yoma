@@ -7,7 +7,7 @@
 import * as NexusSchema from '@nexus/schema'
 import * as BackingTypes from '../nexus-schema-backing-types'
 
-type RootTyping = BackingTypes.GetNexusFutureGen<'types'> | NexusSchema.core.RootTypingImport
+type RootTyping = BackingTypes.GetYomaFutureGen<'types'> | NexusSchema.core.RootTypingImport
 
 export interface NexusObjectTypeConfig<TypeName extends string>
   extends Exclude<NexusSchema.core.NexusObjectTypeConfig<TypeName>, 'rootTyping'> {

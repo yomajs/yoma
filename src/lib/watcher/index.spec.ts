@@ -9,7 +9,7 @@ import { FSSpec, writeFSSpec } from '../testing-utils'
 import { Event } from './types'
 
 ExitSystem.install()
-process.env.NEXUS_NO_CLEAR = 'true'
+process.env.YOMA_NO_CLEAR = 'true'
 
 /**
  * Helpers

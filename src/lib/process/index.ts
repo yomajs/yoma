@@ -235,7 +235,7 @@ export function clearConsole() {
   if (
     process.env.LOG_LEVEL !== undefined ||
     process.env.LOG_FILTER !== undefined ||
-    process.env.NEXUS_NO_CLEAR !== undefined
+    process.env.YOMA_NO_CLEAR !== undefined
   ) {
     return
   }

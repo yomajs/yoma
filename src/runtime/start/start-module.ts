@@ -14,7 +14,7 @@ import { requireResolveFrom } from '../../lib/utils'
 const log = rootLogger.child('startModule')
 
 export const START_MODULE_NAME = 'index'
-export const START_MODULE_HEADER = 'GENERATED NEXUS START MODULE'
+export const START_MODULE_HEADER = 'GENERATED YOMA START MODULE'
 
 export type StartModuleConfig = {
   internalStage: 'build' | 'dev'
@@ -55,8 +55,8 @@ export function createStartModuleContent(config: StartModuleConfig): string {
     content += stripIndent`
       import { registerTypeScriptTranspile } from '${
         config.absoluteModuleImports
-          ? Path.dirname(requireResolveFrom('nexus', config.layout.projectRoot))
-          : 'nexus/dist'
+          ? Path.dirname(requireResolveFrom('yoma', config.layout.projectRoot))
+          : 'yoma/dist'
       }/lib/tsc'
       registerTypeScriptTranspile(${
         typeof config.registerTypeScript === 'object' ? JSON.stringify(config.registerTypeScript) : '{}'
@@ -67,7 +67,7 @@ export function createStartModuleContent(config: StartModuleConfig): string {
   if (config.internalStage === 'dev') {
     content += EOL + EOL + EOL
     content += stripIndent`
-      process.env.NEXUS_STAGE = 'dev'
+      process.env.YOMA_STAGE = 'dev'
     `
   }
 
@@ -76,7 +76,7 @@ export function createStartModuleContent(config: StartModuleConfig): string {
     // Run framework initialization side-effects
     // Also, import the app for later use
     import app from "${
-      config.absoluteModuleImports ? requireResolveFrom('nexus', config.layout.projectRoot) : 'nexus'
+      config.absoluteModuleImports ? requireResolveFrom('yoma', config.layout.projectRoot) : 'yoma'
     }")
   `
 
@@ -97,14 +97,14 @@ export function createStartModuleContent(config: StartModuleConfig): string {
   `
   }
 
-  // This MUST come after nexus package has been imported for its side-effects
+  // This MUST come after yoma package has been imported for its side-effects
   const staticImports = printStaticImports(config.layout, {
     absolutePaths: config.absoluteModuleImports,
   })
   if (staticImports !== '') {
     content += EOL + EOL + EOL
     content += stripIndent`
-        // Import the user's Nexus modules
+        // Import the user's Yoma modules
         ${staticImports}
       `
   }
@@ -160,7 +160,7 @@ export function prepareStartModule(tsProject: TSM.Project, startModule: string):
  * in the source/build root.
  */
 export function printStaticImports(layout: Layout.Layout, opts?: { absolutePaths?: boolean }): string {
-  return layout.nexusModules.reduce((script, modulePath) => {
+  return layout.yomaModules.reduce((script, modulePath) => {
     const path = opts?.absolutePaths
       ? importId(modulePath)
       : relativeImportId(layout.sourceRelative(modulePath))

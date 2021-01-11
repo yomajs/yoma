@@ -39,7 +39,7 @@ interface InternalConfig {
  * TODO
  */
 export async function run(configInput?: Partial<ConfigInput>): Promise<void> {
-  if (process.env.NEXUS_CREATE_HANDOFF === 'true') {
+  if (process.env.YOMA_CREATE_HANDOFF === 'true') {
     await runLocalHandOff()
   } else {
     await runBootstrapper(configInput)
@@ -83,7 +83,7 @@ export async function runBootstrapper(configInput?: Partial<ConfigInput>): Promi
     sourceRoot: Path.join(process.cwd(), 'api'),
     ...configInput,
   }
-  const nexusVersion = getNexusVersion()
+  const yomaVersion = getYomaVersion()
   const packageManager = await getPackageManager(internalConfig.projectRoot)
 
   if (packageManager === 'sigtermed') {
@@ -96,7 +96,7 @@ export async function runBootstrapper(configInput?: Partial<ConfigInput>): Promi
     return
   }
 
-  // TODO in the future scan npm registry for nexus plugins, organize by
+  // TODO in the future scan npm registry for yoma plugins, organize by
   // github stars, and so on.
 
   log.info('Scaffolding project')
@@ -104,10 +104,10 @@ export async function runBootstrapper(configInput?: Partial<ConfigInput>): Promi
   await scaffoldBaseFiles(internalConfig)
 
   log.info(`Installing dependencies`, {
-    nexusVersion,
+    yomaVersion,
   })
 
-  await packageManager.addDeps([`nexus@${nexusVersion}`], {
+  await packageManager.addDeps([`yoma@${yomaVersion}`], {
     require: true,
   })
 
@@ -156,9 +156,9 @@ export async function runBootstrapper(configInput?: Partial<ConfigInput>): Promi
   //
 
   await packageManager
-    .runBin('nexus create', {
+    .runBin('yoma create', {
       stdio: 'inherit',
-      envAdditions: { NEXUS_CREATE_HANDOFF: 'true' },
+      envAdditions: { YOMA_CREATE_HANDOFF: 'true' },
       require: true,
     })
     .catch((error) => {
@@ -187,7 +187,7 @@ export async function runBootstrapper(configInput?: Partial<ConfigInput>): Promi
     await packageManager
       .runScript('dev', {
         stdio: 'inherit',
-        envAdditions: { NEXUS_CREATE_HANDOFF: 'true' },
+        envAdditions: { YOMA_CREATE_HANDOFF: 'true' },
         require: true,
       })
       .catch((error) => {
@@ -213,10 +213,10 @@ async function getPackageManager(projectRoot: string): Promise<PackageManager.Pa
   return packageManager
 }
 
-function getNexusVersion(): string {
-  const nexusVersionEnvVar = process.env.CREATE_APP_CHOICE_NEXUS_VERSION
-  const nexusVersion = nexusVersionEnvVar ?? `${ownPackage.version}`
-  return nexusVersion
+function getYomaVersion(): string {
+  const yomaVersionEnvVar = process.env.CREATE_APP_CHOICE_YOMA_VERSION
+  const yomaVersion = yomaVersionEnvVar ?? `${ownPackage.version}`
+  return yomaVersion
 }
 
 async function getDatabaseSelection(): Promise<DatabaseSelection | 'sigtermed'> {
@@ -388,7 +388,7 @@ const templates: Record<TemplateName, TemplateCreator> = {
         {
           path: Path.join(internalConfig.sourceRoot, 'graphql.ts'),
           content: stripIndent`
-            import { schema } from "nexus";
+            import { schema } from "yoma";
       
             schema.addToContext(req => {
               return {
@@ -446,7 +446,7 @@ const templates: Record<TemplateName, TemplateCreator> = {
         {
           path: Path.join(internalConfig.sourceRoot, 'app.ts'),
           content: stripIndent`
-          import { use } from 'nexus'
+          import { use } from 'yoma'
           import { prisma } from 'nexus-plugin-prisma'
           
           use(prisma())
@@ -466,14 +466,14 @@ async function scaffoldBaseFiles(options: InternalConfig) {
 
   await Promise.all([
     // Empty app and graphql module.
-    // Having at least one of these satisfies minimum Nexus requirements.
+    // Having at least one of these satisfies minimum Yoma requirements.
     // We put both to setup vscode debugger config with an entrypoint that is
     // unlikely to change.
     fs.writeAsync(
       appEntrypointPath,
       stripIndent`
       /**
-       * This file is your server entrypoint. Don't worry about its emptyness, Nexus handles everything for you.
+       * This file is your server entrypoint. Don't worry about its emptyness, Yoma handles everything for you.
        * However, if you need to add settings, enable plugins, schema middleware etc, this is place to do it.
        * Below are some examples of what you can do. Uncomment them to try them out!
        */
@@ -482,7 +482,7 @@ async function scaffoldBaseFiles(options: InternalConfig) {
        * Change a variety of settings
        */
 
-      // import { settings } from 'nexus'
+      // import { settings } from 'yoma'
       //
       // settings.change({
       //   server: {
@@ -494,7 +494,7 @@ async function scaffoldBaseFiles(options: InternalConfig) {
        * Add some schema middleware
        */
 
-      // import { schema } from 'nexus'
+      // import { schema } from 'yoma'
       //
       // schema.middleware((_config) => {
       //   return async (root, args, ctx, info, next) {
@@ -508,7 +508,7 @@ async function scaffoldBaseFiles(options: InternalConfig) {
        * Enable the Prisma plugin. (Needs \`nexus-plugin-prisma\` installed)
        */
 
-      // import { use } from 'nexus'
+      // import { use } from 'yoma'
       // import { prisma } from 'nexus-plugin-prisma'
       //
       // use(prisma())
@@ -537,9 +537,9 @@ async function scaffoldBaseFiles(options: InternalConfig) {
       dependencies: {},
       scripts: {
         format: "npx prettier --write './**/*.{ts,md}'",
-        dev: 'nexus dev',
-        build: 'nexus build',
-        start: `node .nexus/build/${sourceRootRelative}`,
+        dev: 'yoma dev',
+        build: 'yoma build',
+        start: `node .yoma/build/${sourceRootRelative}`,
       },
       prettier: {
         semi: false,
@@ -569,9 +569,9 @@ async function scaffoldBaseFiles(options: InternalConfig) {
             {
               "type": "node",
               "request": "launch",
-              "name": "Debug Nexus App",
+              "name": "Debug Yoma App",
               "protocol": "inspector",
-              "runtimeExecutable": "\${workspaceRoot}/node_modules/.bin/nexus",
+              "runtimeExecutable": "\${workspaceRoot}/node_modules/.bin/yoma",
               "runtimeArgs": ["dev"],
               "args": ["${Path.relative(options.projectRoot, appEntrypointPath)}"],
               "sourceMaps": true,
@@ -584,7 +584,7 @@ async function scaffoldBaseFiles(options: InternalConfig) {
   ])
 }
 
-const ENV_PARENT_DATA = 'NEXUS_CREATE_DATA'
+const ENV_PARENT_DATA = 'YOMA_CREATE_DATA'
 
 type ParentData = {
   database?: PluginRuntime.OnAfterBaseSetupLens['database']

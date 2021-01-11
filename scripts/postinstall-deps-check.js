@@ -72,11 +72,11 @@ function findDepsDeDuped(pj, bundledDeps) {
 let foundDeps = findDepsDeDuped(getPackageJson(), bundledDeps)
 
 const message = `
-${red}│${reset}  ${red}WARNING${reset} from ${boldWhite}nexus${reset}
-${red}│${reset}  ${red}WARNING${reset} from ${boldWhite}nexus${reset}
-${red}│${reset}  ${red}WARNING${reset} from ${boldWhite}nexus${reset}
+${red}│${reset}  ${red}WARNING${reset} from ${boldWhite}yoma${reset}
+${red}│${reset}  ${red}WARNING${reset} from ${boldWhite}yoma${reset}
+${red}│${reset}  ${red}WARNING${reset} from ${boldWhite}yoma${reset}
 ${red}│${reset} 
-${red}│${reset}  ${yellow}nexus${reset} bundles ${yellow}graphql${reset} and ${yellow}@nexus/schema${reset} dependencies.
+${red}│${reset}  ${yellow}yoma${reset} bundles ${yellow}graphql${reset} and ${yellow}@nexus/schema${reset} dependencies.
 ${red}│${reset}  So please uninstall the ones you have installed or you
 ${red}│${reset}  may encounter problems.
 ${red}│${reset}  
@@ -96,8 +96,8 @@ ${red}│${reset}  dependencies then use Yarn and its ${yellow}resolutions${rese
 ${red}│${reset} 
 ${red}│${reset}  ${boldWhite}https://classic.yarnpkg.com/en/docs/selective-version-resolutions${reset}
 ${red}│${reset} 
-${red}│${reset}  If you are curious why ${yellow}nexus${reset} bundles these dependencies
-${red}│${reset}  then refer to the Nexus doc explaining this strategy.
+${red}│${reset}  If you are curious why ${yellow}yoma${reset} bundles these dependencies
+${red}│${reset}  then refer to the Yoma doc explaining this strategy.
 ${red}│${reset} 
 ${red}│${reset}  ${boldWhite}https://nxs.li/why/bundle-dependencies${reset}
 `

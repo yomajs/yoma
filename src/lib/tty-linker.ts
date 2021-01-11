@@ -2,7 +2,7 @@ import * as nodecp from 'child_process'
 import * as lo from 'lodash'
 
 // Note we found but did not investigate why that importing a log module here
-// broke the tty effect of Nexus runner.
+// broke the tty effect of Yoma runner.
 
 interface ServerMessage {
   type: 'tty_resize'

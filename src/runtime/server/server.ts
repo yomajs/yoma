@@ -18,28 +18,28 @@ import { createServerSettingsManager } from './settings'
 
 const resolverLogger = log.child('apollo')
 
-export type NexusRequestHandler = (req: HTTP.IncomingMessage, res: HTTP.ServerResponse) => void
+export type YomaRequestHandler = (req: HTTP.IncomingMessage, res: HTTP.ServerResponse) => void
 
 /**
  * Public interface of the server component
  */
 export interface Server {
   /**
-   * Escape hatches to various Nexus server internals.
+   * Escape hatches to various Yoma server internals.
    *
-   * These things are available mostly as escape hatches, and maybe a few valid advanced use-cases. If you haven't already/are not sure, consider [opening an issue](https://nxs.li/issues/create/feature) for your use-case. Maybe Nexus can and should provide better first-class support for what you are trying to do!
+   * These things are available mostly as escape hatches, and maybe a few valid advanced use-cases. If you haven't already/are not sure, consider [opening an issue](https://github.com/yomajs/yoma/issues/new) for your use-case. Maybe Yoma can and should provide better first-class support for what you are trying to do!
    */
   raw: {
     /**
      * The underlying [Node HTTP Server](https://nodejs.org/api/http.html#http_class_http_server) instance.
      *
-     * Access to this is made available mostly as an escape hatch, and maybe a few valid advanced use-cases. If you haven't already/are not sure, consider [opening an issue](https://nxs.li/issues/create/feature) for your use-case. Maybe Nexus can and should provide better first-class support for what you are trying to do!
+     * Access to this is made available mostly as an escape hatch, and maybe a few valid advanced use-cases. If you haven't already/are not sure, consider [opening an issue](https://github.com/yomajs/yoma/issues/new) for your use-case. Maybe Yoma can and should provide better first-class support for what you are trying to do!
      */
     http: HTTP.Server
   }
   express: Express
   handlers: {
-    graphql: NexusRequestHandler
+    graphql: YomaRequestHandler
   }
 }
 

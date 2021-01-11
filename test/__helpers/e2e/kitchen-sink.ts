@@ -20,8 +20,8 @@ export async function e2eKitchenSink(app: E2EContext) {
   //-------------------------------------------------
   log.warn('create app')
 
-  if (app.usingLocalNexus?.createAppWithThis) {
-    await app.localNexusCreateApp!({
+  if (app.usingLocalYoma?.createAppWithThis) {
+    await app.localYomaCreateApp!({
       databaseType: 'NO_DATABASE',
       packageManagerType: 'yarn',
     })
@@ -29,10 +29,10 @@ export async function e2eKitchenSink(app: E2EContext) {
       .toPromise()
   } else {
     await app
-      .npxNexusCreateApp({
+      .npxYomaCreateApp({
         databaseType: 'NO_DATABASE',
         packageManagerType: 'yarn',
-        nexusVersion: app.useNexusVersion,
+        yomaVersion: app.useYomaVersion,
       })
       .pipe(refCount(), takeUntilServerListening)
       .toPromise()
@@ -42,7 +42,7 @@ export async function e2eKitchenSink(app: E2EContext) {
   await app.fs.writeAsync(
     `./api/add-to-context/graphql.ts`,
     `
-        import { schema } from 'nexus'
+        import { schema } from 'yoma'
 
         export interface B {
           foo: number
@@ -69,7 +69,7 @@ export async function e2eKitchenSink(app: E2EContext) {
   await app.fs.writeAsync(
     `./api/backing-types/graphql.ts`,
     `
-          import { schema } from 'nexus'
+          import { schema } from 'yoma'
 
           export type CustomBackingType = {
             field1: string
@@ -104,21 +104,21 @@ export async function e2eKitchenSink(app: E2EContext) {
   //-------------------------------------------------
   log.warn('use global cli to interact with local project')
 
-  if (app.usingLocalNexus) {
+  if (app.usingLocalYoma) {
     await app
-      .spawn(['yarn', 'global', 'add', app.usingLocalNexus.path])
+      .spawn(['yarn', 'global', 'add', app.usingLocalYoma.path])
       .pipe(refCount(), bufferOutput)
       .toPromise()
   } else {
-    await app.spawn(['yarn', 'global', 'add', app.useNexusVersion]).pipe(refCount(), bufferOutput).toPromise()
+    await app.spawn(['yarn', 'global', 'add', app.useYomaVersion]).pipe(refCount(), bufferOutput).toPromise()
   }
   // force the local ver to something so we have confidence that global did
   // interact with local and so that we have stable snapshot.
-  const pjpath = app.fs.path('node_modules/nexus/package.json')
+  const pjpath = app.fs.path('node_modules/yoma/package.json')
   const pjoriginal = app.fs.read(pjpath, 'json')
   app.fs.write(pjpath, { ...pjoriginal, version: '0.0.0-local' })
   const result = await app
-    .spawn(['nexus', '-v'], {
+    .spawn(['yoma', '-v'], {
       cwd: app.dir,
       env: { ...process.env, LOG_LEVEL: 'warn' },
     })
@@ -128,12 +128,12 @@ export async function e2eKitchenSink(app: E2EContext) {
 
   // Windows/node-pty seems to output a bunch of other characters
   // so use `toContaine` instead of `toEqual`
-  expect(result.trim()).toContain('nexus@0.0.0-local')
+  expect(result.trim()).toContain('yoma@0.0.0-local')
 
   //-------------------------------------------------
   log.warn('run dev & test watcher settings')
 
-  proc = app.nexus(['dev'])
+  proc = app.yoma(['dev'])
   sub = proc.connect()
   await proc.pipe(takeUntilServerListening).toPromise()
 
@@ -173,15 +173,15 @@ export async function e2eKitchenSink(app: E2EContext) {
     dir: app.getTmpDir('e2e-plugin'),
   })
 
-  if (app.usingLocalNexus?.createPluginWithThis) {
-    output = await pluginProject.localNexusCreatePlugin!({ name: 'foobar' })
+  if (app.usingLocalYoma?.createPluginWithThis) {
+    output = await pluginProject.localYomaCreatePlugin!({ name: 'foobar' })
       .pipe(refCount(), bufferOutput)
       .toPromise()
   } else {
     output = await pluginProject
-      .npxNexusCreatePlugin({
+      .npxYomaCreatePlugin({
         name: 'foobar',
-        nexusVersion: process.env.E2E_NEXUS_VERSION ?? 'latest',
+        yomaVersion: process.env.E2E_YOMA_VERSION ?? 'latest',
       })
       .pipe(refCount(), bufferOutput)
       .toPromise()
@@ -189,13 +189,13 @@ export async function e2eKitchenSink(app: E2EContext) {
 
   expect(output).toContain('Done! To get started')
 
-  if (app.usingLocalNexus?.pluginLinksToThis) {
-    // We do this so that the plugin is building against the local nexus. Imagine
+  if (app.usingLocalYoma?.pluginLinksToThis) {
+    // We do this so that the plugin is building against the local yoma. Imagine
     // the plugin system is changing, the only way to allow the plugin template to
-    // be built against the changes is to work with the local nexus version, not
+    // be built against the changes is to work with the local yoma version, not
     // one published to npm.
     await pluginProject
-      .spawn(['yarn', 'add', '-D', app.usingLocalNexus.path])
+      .spawn(['yarn', 'add', '-D', app.usingLocalYoma.path])
       .pipe(refCount(), bufferOutput)
       .toPromise()
   }
@@ -216,14 +216,14 @@ export async function e2eKitchenSink(app: E2EContext) {
   await app.fs.writeAsync(
     './api/app.ts',
     `
-    import { use } from 'nexus'
-    import { plugin } from 'nexus-plugin-foobar'
+    import { use } from 'yoma'
+    import { plugin } from 'yoma-plugin-foobar'
 
     use(plugin())
   `
   )
 
-  proc = app.nexus(['dev'])
+  proc = app.yoma(['dev'])
   sub = proc.connect()
 
   output = await proc.pipe(takeUntilServerListening, bufferOutput).toPromise()
@@ -243,16 +243,16 @@ export async function e2eKitchenSink(app: E2EContext) {
   //-------------------------------------------------
   log.warn('with plugin, build app')
 
-  output = await app.nexus(['build']).pipe(refCount(), bufferOutput).toPromise()
+  output = await app.yoma(['build']).pipe(refCount(), bufferOutput).toPromise()
 
   expect(output).toContain('build.onStart hook from foobar')
   expect(output).toContain('success')
 
   /**
-   * run nexus dev & nexus build, along with a few checks within
+   * run yoma dev & yoma build, along with a few checks within
    */
   async function devAndBuildApp() {
-    proc = app.nexus(['dev'])
+    proc = app.yoma(['dev'])
     sub = proc.connect()
 
     await proc.pipe(takeUntilServerListening).toPromise()
@@ -280,7 +280,7 @@ export async function e2eKitchenSink(app: E2EContext) {
     //-------------------------------------------------
     log.warn('run build')
 
-    output = await app.nexus(['build']).pipe(refCount(), bufferOutput).toPromise()
+    output = await app.yoma(['build']).pipe(refCount(), bufferOutput).toPromise()
     expect(output).toContain('success')
 
     //-------------------------------------------------

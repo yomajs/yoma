@@ -1,5 +1,5 @@
 /**
- * This module is for reporting issues about Nexus. It extracts diagnostics
+ * This module is for reporting issues about Yoma. It extracts diagnostics
  * about the proejct and environment and can format them for a GitHub issue.
  */
 
@@ -16,7 +16,7 @@ interface Report {
     platform: string
     release: string
   }
-  nexus?: string
+  yoma?: string
   plugins?: string[]
   otherDependencies?: PackageJson['dependencies']
   devDependencies?: PackageJson['devDependencies']
@@ -29,9 +29,9 @@ interface Report {
 }
 
 /**
- * Extract diagnostics about the Nexus project.
+ * Extract diagnostics about the Yoma project.
  */
-export async function getNexusReport(errLayout: Either<Error, Layout>): Promise<Report> {
+export async function getYomaReport(errLayout: Either<Error, Layout>): Promise<Report> {
   if (isLeft(errLayout)) {
     return {
       ...getBaseReport(),
@@ -47,7 +47,7 @@ export async function getNexusReport(errLayout: Either<Error, Layout>): Promise<
   const deps = pj?.dependencies ?? {}
   const otherDeps = Object.fromEntries(
     Object.entries(deps).filter((ent) => {
-      return ent[0] !== 'nexus' && !ent[0].startsWith('nexus-plugin')
+      return ent[0] !== 'yoma' && !ent[0].startsWith('yoma-plugin')
     })
   )
   const pluginEntrypoints = await PluginWorktime.getUsedPlugins(layout)
@@ -55,7 +55,7 @@ export async function getNexusReport(errLayout: Either<Error, Layout>): Promise<
 
   return {
     ...getBaseReport(),
-    nexus: deps.nexus ?? 'undefined',
+    yoma: deps.yoma ?? 'undefined',
     plugins: gotManifests.data.map((m) => m.name),
     otherDependencies: otherDeps,
     devDependencies: pj?.devDependencies ?? {},
@@ -71,7 +71,7 @@ export async function getNexusReport(errLayout: Either<Error, Layout>): Promise<
 }
 
 /**
- * Generic report data about user system, not particular to Nexus.
+ * Generic report data about user system, not particular to Yoma.
  */
 export function getBaseReport() {
   return {

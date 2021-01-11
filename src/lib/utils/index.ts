@@ -189,10 +189,10 @@ export type OmitFirstArg<Func> = Func extends (firstArg: any, ...args: infer Arg
   : never
 
 /**
- * Generate a randomized Nexus project name.
+ * Generate a randomized Yoma project name.
  */
 export function generateProjectName(): string {
-  return 'my-nexus-app-' + Math.random().toString().slice(2)
+  return 'my-yoma-app-' + Math.random().toString().slice(2)
 }
 
 /**

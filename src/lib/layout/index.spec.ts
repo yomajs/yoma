@@ -7,7 +7,7 @@ import * as Layout from '.'
 import { FSSpec, writeFSSpec } from '../../lib/testing-utils'
 import * as TC from '../test-context'
 import { leftOrThrow, normalizePathsInData, repalceInObject, replaceEvery, rightOrThrow } from '../utils'
-import { NEXUS_TS_LSP_IMPORT_ID } from './tsconfig'
+import { YOMA_TS_LSP_IMPORT_ID } from './tsconfig'
 
 let logs: string = ''
 
@@ -46,7 +46,7 @@ function tsconfig(input?: TsConfigJson): TsConfigJson {
     compilerOptions: {
       noEmit: true,
       rootDir: '.',
-      plugins: [{ name: NEXUS_TS_LSP_IMPORT_ID }],
+      plugins: [{ name: YOMA_TS_LSP_IMPORT_ID }],
       typeRoots: ['node_modules/@types', 'types'],
       esModuleInterop: true,
     },
@@ -56,7 +56,7 @@ function tsconfig(input?: TsConfigJson): TsConfigJson {
 }
 
 /**
- * Create tsconfig content. Defaults to minimum valid tsconfig needed by Nexus. Passed config will override and merge using lodash deep defaults.
+ * Create tsconfig content. Defaults to minimum valid tsconfig needed by Yoma. Passed config will override and merge using lodash deep defaults.
  */
 function tsconfigSource(input?: TsConfigJson): string {
   return JSON.stringify(tsconfig(input))
@@ -167,7 +167,7 @@ describe('tsconfig', () => {
     })
     await ctx.createLayoutThrow()
     expect(logs).toMatchInlineSnapshot(`
-      "▲ nexus:tsconfig Please add [93m\\"types.d.ts\\"[39m to your [93m\\"include\\"[39m array. If you do not then results from Nexus and your IDE will not agree if the declaration file is used in your project.
+      "▲ yoma:tsconfig Please add [93m\\"types.d.ts\\"[39m to your [93m\\"include\\"[39m array. If you do not then results from Yoma and your IDE will not agree if the declaration file is used in your project.
       "
     `)
   })
@@ -198,8 +198,8 @@ describe('tsconfig', () => {
   it('will scaffold tsconfig if not present', async () => {
     await ctx.createLayoutThrow()
     expect(normalizePathsInData(logs)).toMatchInlineSnapshot(`
-      "▲ nexus:tsconfig We could not find a \\"tsconfig.json\\" file
-      ▲ nexus:tsconfig We scaffolded one for you at __DYNAMIC__/tsconfig.json
+      "▲ yoma:tsconfig We could not find a \\"tsconfig.json\\" file
+      ▲ yoma:tsconfig We scaffolded one for you at __DYNAMIC__/tsconfig.json
       "
     `)
     expect(ctx.fs.read('tsconfig.json', 'json')).toMatchInlineSnapshot(`
@@ -213,7 +213,7 @@ describe('tsconfig', () => {
           "noEmit": true,
           "plugins": Array [
             Object {
-              "name": "nexus/typescript-language-service",
+              "name": "yoma/typescript-language-service",
             },
           ],
           "rootDir": ".",
@@ -242,14 +242,14 @@ describe('tsconfig', () => {
       } as TsConfigJson)
       await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "▲ nexus:tsconfig You have not setup the Nexus TypeScript Language Service Plugin. Add this to your compiler options:
+        "▲ yoma:tsconfig You have not setup the Yoma TypeScript Language Service Plugin. Add this to your compiler options:
 
-            \\"plugins\\": [{ \\"name\\": \\"nexus/typescript-language-service\\" }]
+            \\"plugins\\": [{ \\"name\\": \\"yoma/typescript-language-service\\" }]
 
-        ▲ nexus:tsconfig Please set [93m\`compilerOptions.typeRoots\`[39m to [93m[\\"node_modules/@types\\",\\"types\\"][39m. \\"node_modules/@types\\" is the TypeScript default for types packages and where Nexus outputs typegen to. \\"types\\" is the Nexus convention for _local_ types packages.
-        ▲ nexus:tsconfig Please add [93m\\"types.d.ts\\"[39m to your [93m\\"include\\"[39m array. If you do not then results from Nexus and your IDE will not agree if the declaration file is used in your project.
-        ▲ nexus:tsconfig Please set [93m\`compilerOptions.rootDir\`[39m to [93m\\".\\"[39m
-        ▲ nexus:tsconfig Please set [93m\`include\`[39m to have \\".\\"
+        ▲ yoma:tsconfig Please set [93m\`compilerOptions.typeRoots\`[39m to [93m[\\"node_modules/@types\\",\\"types\\"][39m. \\"node_modules/@types\\" is the TypeScript default for types packages and where Yoma outputs typegen to. \\"types\\" is the Yoma convention for _local_ types packages.
+        ▲ yoma:tsconfig Please add [93m\\"types.d.ts\\"[39m to your [93m\\"include\\"[39m array. If you do not then results from Yoma and your IDE will not agree if the declaration file is used in your project.
+        ▲ yoma:tsconfig Please set [93m\`compilerOptions.rootDir\`[39m to [93m\\".\\"[39m
+        ▲ yoma:tsconfig Please set [93m\`include\`[39m to have \\".\\"
         "
       `)
     })
@@ -262,7 +262,7 @@ describe('tsconfig', () => {
       })
       const res = await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "▲ nexus:tsconfig Please set [93m\`compilerOptions.noEmit\`[39m to true. This will ensure you do not accidentally emit using [93m\`$ tsc\`[39m. Use [93m\`$ nexus build\`[39m to build your app and emit JavaScript.
+        "▲ yoma:tsconfig Please set [93m\`compilerOptions.noEmit\`[39m to true. This will ensure you do not accidentally emit using [93m\`$ tsc\`[39m. Use [93m\`$ yoma build\`[39m to build your app and emit JavaScript.
         "
       `)
       expect(res.tsConfig.content.options.noEmit).toEqual(false)
@@ -276,7 +276,7 @@ describe('tsconfig', () => {
       })
       const res = await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "▲ nexus:tsconfig Please set [93m\`compilerOptions.noEmit\`[39m to true. This will ensure you do not accidentally emit using [93m\`$ tsc\`[39m. Use [93m\`$ nexus build\`[39m to build your app and emit JavaScript.
+        "▲ yoma:tsconfig Please set [93m\`compilerOptions.noEmit\`[39m to true. This will ensure you do not accidentally emit using [93m\`$ tsc\`[39m. Use [93m\`$ yoma build\`[39m to build your app and emit JavaScript.
         "
       `)
       expect(res.tsConfig.content.options.noEmit).toEqual(false)
@@ -294,8 +294,8 @@ describe('tsconfig', () => {
       })
       await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "▲ nexus:tsconfig You have set [93m\`compilerOptions.tsBuildInfoFile\`[39m but it will be ignored by Nexus. Nexus manages this value internally.
-        ▲ nexus:tsconfig You have set [93m\`compilerOptions.incremental\`[39m but it will be ignored by Nexus. Nexus manages this value internally.
+        "▲ yoma:tsconfig You have set [93m\`compilerOptions.tsBuildInfoFile\`[39m but it will be ignored by Yoma. Yoma manages this value internally.
+        ▲ yoma:tsconfig You have set [93m\`compilerOptions.incremental\`[39m but it will be ignored by Yoma. Yoma manages this value internally.
         "
       `)
     })
@@ -309,15 +309,15 @@ describe('tsconfig', () => {
       })
       const layout = await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "▲ nexus:tsconfig Please add [93m\\"types.d.ts\\"[39m to your [93m\\"include\\"[39m array. If you do not then results from Nexus and your IDE will not agree if the declaration file is used in your project.
-        ▲ nexus:tsconfig Please set [93m\`compilerOptions.rootDir\`[39m to [93m\\".\\"[39m
-        ▲ nexus:tsconfig Please set [93m\`include\`[39m to have \\".\\"
+        "▲ yoma:tsconfig Please add [93m\\"types.d.ts\\"[39m to your [93m\\"include\\"[39m array. If you do not then results from Yoma and your IDE will not agree if the declaration file is used in your project.
+        ▲ yoma:tsconfig Please set [93m\`compilerOptions.rootDir\`[39m to [93m\\".\\"[39m
+        ▲ yoma:tsconfig Please set [93m\`include\`[39m to have \\".\\"
         "
       `)
       expect(layout.tsConfig.content.raw.compilerOptions.rootDir).toEqual('.')
       expect(layout.tsConfig.content.raw.include).toEqual(['types.d.ts', '.'])
     })
-    it('need the Nexus TS LSP setup', async () => {
+    it('need the Yoma TS LSP setup', async () => {
       ctx.setup({
         'tsconfig.json': tsconfigSource({
           compilerOptions: { plugins: [{ name: 'foobar' }] },
@@ -326,9 +326,9 @@ describe('tsconfig', () => {
 
       await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "▲ nexus:tsconfig You have not added the Nexus TypeScript Language Service Plugin to your configured TypeScript plugins. Add this to your compilerOptions:
+        "▲ yoma:tsconfig You have not added the Yoma TypeScript Language Service Plugin to your configured TypeScript plugins. Add this to your compilerOptions:
 
-            [93m\\"plugins\\": [{\\"name\\":\\"foobar\\"},{\\"name\\":\\"nexus/typescript-language-service\\"}][39m
+            [93m\\"plugins\\": [{\\"name\\":\\"foobar\\"},{\\"name\\":\\"yoma/typescript-language-service\\"}][39m
 
         "
       `)
@@ -339,7 +339,7 @@ describe('tsconfig', () => {
       })
       await ctx.createLayoutThrow()
       expect(logs).toMatchInlineSnapshot(`
-        "■ nexus:tsconfig You have set [93m\`compilerOptions.types\`[39m but Nexus does not support it. If you do not remove your customization you may/will (e.g. VSCode) see inconsistent results between your IDE and what Nexus tells you at build time. If you would like to see Nexus support this setting please chime in at https://github.com/graphql-nexus/nexus/issues/1036.
+        "■ yoma:tsconfig You have set [93m\`compilerOptions.types\`[39m but Yoma does not support it. If you do not remove your customization you may/will (e.g. VSCode) see inconsistent results between your IDE and what Yoma tells you at build time. If you would like to see Yoma support this setting please chime in at https://github.com/yomajs/yoma/issues/new.
         "
       `)
     })
@@ -353,7 +353,7 @@ describe('tsconfig', () => {
         })
         const res = await ctx.createLayout2().then(rightOrThrow)
         expect(logs).toMatchInlineSnapshot(`
-          "■ nexus:tsconfig Please add [93m\\"node_modules/@types\\"[39m to your [93m\`compilerOptions.typeRoots\`[39m array. 
+          "■ yoma:tsconfig Please add [93m\\"node_modules/@types\\"[39m to your [93m\`compilerOptions.typeRoots\`[39m array. 
           "
         `)
         // todo normalize in layout module???
@@ -369,7 +369,7 @@ describe('tsconfig', () => {
         })
         const res = await ctx.createLayout2().then(rightOrThrow)
         expect(logs).toMatchInlineSnapshot(`
-          "▲ nexus:tsconfig Please add [93m\\"types\\"[39m to your [93m\`compilerOptions.typeRoots\`[39m array. 
+          "▲ yoma:tsconfig Please add [93m\\"types\\"[39m to your [93m\`compilerOptions.typeRoots\`[39m array. 
           "
         `)
         expect(res.tsConfig.content.options.typeRoots?.map(Path.normalize)).toIncludeSameMembers(
@@ -384,7 +384,7 @@ describe('tsconfig', () => {
         })
         const res = await ctx.createLayout2().then(rightOrThrow)
         expect(logs).toMatchInlineSnapshot(`
-          "▲ nexus:tsconfig Please set [93m\`compilerOptions.typeRoots\`[39m to [93m[\\"node_modules/@types\\",\\"types\\"][39m. \\"node_modules/@types\\" is the TypeScript default for types packages and where Nexus outputs typegen to. \\"types\\" is the Nexus convention for _local_ types packages.
+          "▲ yoma:tsconfig Please set [93m\`compilerOptions.typeRoots\`[39m to [93m[\\"node_modules/@types\\",\\"types\\"][39m. \\"node_modules/@types\\" is the TypeScript default for types packages and where Yoma outputs typegen to. \\"types\\" is the Yoma convention for _local_ types packages.
           "
         `)
         expect(res.tsConfig.content.options.typeRoots?.map(Path.normalize)).toIncludeSameMembers(
@@ -399,7 +399,7 @@ describe('tsconfig', () => {
         })
         const res = await ctx.createLayout2().then(rightOrThrow)
         expect(logs).toMatchInlineSnapshot(`
-          "▲ nexus:tsconfig Please add [93m\\"types\\"[39m to your [93m\`compilerOptions.typeRoots\`[39m array. 
+          "▲ yoma:tsconfig Please add [93m\\"types\\"[39m to your [93m\`compilerOptions.typeRoots\`[39m array. 
           "
         `)
         expect(res.tsConfig.content.options.typeRoots?.map(Path.normalize)).toIncludeSameMembers(
@@ -447,7 +447,7 @@ describe('tsconfig', () => {
   })
 })
 
-it('fails if no entrypoint and no nexus modules', async () => {
+it('fails if no entrypoint and no yoma modules', async () => {
   ctx.setup({
     'tsconfig.json': tsconfigSource(),
     src: {
@@ -469,21 +469,21 @@ it('fails if no entrypoint and no nexus modules', async () => {
   `)
 })
 
-describe('nexusModules', () => {
-  it('finds nested nexus modules', async () => {
+describe('yomaModules', () => {
+  it('finds nested yoma modules', async () => {
     ctx.setup({
       'tsconfig.json': tsconfigSource(),
       src: {
         'app.ts': '',
         graphql: {
-          '1.ts': `import { schema } from 'nexus'`,
-          '2.ts': `import { schema } from 'nexus'`,
+          '1.ts': `import { schema } from 'yoma'`,
+          '2.ts': `import { schema } from 'yoma'`,
           graphql: {
-            '3.ts': `import { schema } from 'nexus'`,
-            '4.ts': `import { schema } from 'nexus'`,
+            '3.ts': `import { schema } from 'yoma'`,
+            '4.ts': `import { schema } from 'yoma'`,
             graphql: {
-              '5.ts': `import { schema } from 'nexus'`,
-              '6.ts': `import { schema } from 'nexus'`,
+              '5.ts': `import { schema } from 'yoma'`,
+              '6.ts': `import { schema } from 'yoma'`,
             },
           },
         },
@@ -492,7 +492,7 @@ describe('nexusModules', () => {
 
     const result = await ctx.createLayout2().then(rightOrThrow)
 
-    expect(result.nexusModules).toIncludeSameMembers(
+    expect(result.yomaModules).toIncludeSameMembers(
       [
         'src/graphql/1.ts',
         'src/graphql/2.ts',
@@ -504,20 +504,20 @@ describe('nexusModules', () => {
     )
   })
 
-  it('does not take custom entrypoint as nexus module if contains a nexus import', async () => {
+  it('does not take custom entrypoint as yoma module if contains a yoma import', async () => {
     await ctx.setup({
       'tsconfig.json': tsconfigSource(),
-      'app.ts': `import { schema } from 'nexus'`,
-      'graphql.ts': `import { schema } from 'nexus'`,
+      'app.ts': `import { schema } from 'yoma'`,
+      'graphql.ts': `import { schema } from 'yoma'`,
     })
     const result = await ctx.createLayout2({ entrypointPath: './app.ts' }).then(rightOrThrow)
-    // result.nexusModules
+    // result.yomaModules
     expect(result).toMatchObject({
       app: {
         exists: true,
         path: expect.stringContaining(ctx.fs.path('app.ts')),
       },
-      nexusModules: [ctx.fs.path('graphql.ts')],
+      yomaModules: [ctx.fs.path('graphql.ts')],
     })
   })
 })
@@ -543,7 +543,7 @@ describe('entrypoint', () => {
   })
 
   it('set app.exists = false if no entrypoint', async () => {
-    await ctx.setup({ 'tsconfig.json': tsconfigSource(), 'foo.ts': 'import "nexus"' })
+    await ctx.setup({ 'tsconfig.json': tsconfigSource(), 'foo.ts': 'import "yoma"' })
     const result = await ctx.createLayoutThrow()
     expect(result.app).toMatchInlineSnapshot(`
           Object {
@@ -597,14 +597,14 @@ describe('entrypoint', () => {
 })
 
 describe('build', () => {
-  it(`defaults to .nexus/build`, async () => {
-    await ctx.setup({ 'tsconfig.json': tsconfigSource(), 'foo.ts': 'import "nexus"' })
+  it(`defaults to .yoma/build`, async () => {
+    await ctx.setup({ 'tsconfig.json': tsconfigSource(), 'foo.ts': 'import "yoma"' })
     const result = await ctx.createLayoutThrow()
     expect(result).toMatchObject({
       build: {
         startModuleInPath: '__DYNAMIC__/index.ts',
-        startModuleOutPath: '__DYNAMIC__/.nexus/build/index.js',
-        tsOutputDir: '__DYNAMIC__/.nexus/build',
+        startModuleOutPath: '__DYNAMIC__/.yoma/build/index.js',
+        tsOutputDir: '__DYNAMIC__/.yoma/build',
       },
     })
   })
@@ -616,7 +616,7 @@ describe('build', () => {
           outDir: 'dist',
         },
       }),
-      'foo.ts': 'import "nexus"',
+      'foo.ts': 'import "yoma"',
     })
     const result = await ctx.createLayout2().then(rightOrThrow)
     expect(result).toMatchObject({
@@ -634,7 +634,7 @@ describe('build', () => {
           outDir: 'dist',
         },
       }),
-      'foo.ts': 'import "nexus"',
+      'foo.ts': 'import "yoma"',
     })
     const result = await ctx.createLayoutThrow({ buildOutput: 'custom-output' })
 
@@ -655,21 +655,21 @@ describe('build', () => {
 describe('scanProjectType', () => {
   const pjdata = { version: '0.0.0', name: 'foo' }
 
-  describe('if package.json with nexus dep then nexus project', () => {
+  describe('if package.json with yoma dep then yoma project', () => {
     it('in cwd', async () => {
-      ctx.fs.write('package.json', { ...pjdata, dependencies: { nexus: '0.0.0' } })
+      ctx.fs.write('package.json', { ...pjdata, dependencies: { yoma: '0.0.0' } })
       const res = await Layout.scanProjectType({ cwd: ctx.fs.cwd() })
-      expect(res.type).toMatchInlineSnapshot(`"NEXUS_project"`)
+      expect(res.type).toMatchInlineSnapshot(`"YOMA_project"`)
     })
     it('in hierarchy', async () => {
       nestTmpDir()
-      ctx.fs.write('../package.json', { ...pjdata, dependencies: { nexus: '0.0.0' } })
+      ctx.fs.write('../package.json', { ...pjdata, dependencies: { yoma: '0.0.0' } })
       const res = await Layout.scanProjectType({ cwd: ctx.fs.cwd() })
-      expect(res.type).toMatchInlineSnapshot(`"NEXUS_project"`)
+      expect(res.type).toMatchInlineSnapshot(`"YOMA_project"`)
     })
   })
 
-  describe('if package.json without nexus dep then node project', () => {
+  describe('if package.json without yoma dep then node project', () => {
     it('in cwd', async () => {
       ctx.fs.write('package.json', { ...pjdata, dependencies: {} })
       const res = await Layout.scanProjectType({ cwd: ctx.fs.cwd() })

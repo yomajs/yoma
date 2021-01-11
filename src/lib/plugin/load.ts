@@ -90,7 +90,7 @@ export function importAndLoadTesttimePlugins(plugins: Plugin[]): Array<Either<Er
 
       if (!Lo.isPlainObject(contribution)) {
         return left(
-          new Error(stripIndent`Ignoring the testtime contribution from the Nexus plugin \`${plugin.manifest.name}\` because its contribution is not an object.
+          new Error(stripIndent`Ignoring the testtime contribution from the Yoma plugin \`${plugin.manifest.name}\` because its contribution is not an object.
         This is likely to cause an error in your tests. Please reach out to the author of the plugin to fix the issue.`)
         )
       }
@@ -106,7 +106,7 @@ export function filterValidPlugins(plugins: Plugin[]) {
   const [validPlugins, invalidPlugins] = partition(plugins, isValidPlugin)
 
   if (invalidPlugins.length > 0) {
-    log.warn(`Some invalid plugins were passed to Nexus. They are being ignored.`, {
+    log.warn(`Some invalid plugins were passed to Yoma. They are being ignored.`, {
       invalidPlugins,
     })
   }

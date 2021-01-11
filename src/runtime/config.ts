@@ -29,11 +29,11 @@ export interface LoadedConfig {
 type EnvironmentWithSecretLoader = ((load: SecretLoader) => Environment | undefined) | Environment | undefined
 
 interface Environment {
-  NEXUS_DATABASE_URL?: string
+  YOMA_DATABASE_URL?: string
   [env_key: string]: string | undefined
 }
 
-export const DATABASE_URL_ENV_NAME = 'NEXUS_DATABASE_URL'
+export const DATABASE_URL_ENV_NAME = 'YOMA_DATABASE_URL'
 
 function tryReadConfig(configPath: string): object | null {
   const { unregister } = registerTsExt()
@@ -43,7 +43,7 @@ function tryReadConfig(configPath: string): object | null {
     unregister()
     return config
   } catch (e) {
-    log.trace('could not load nexus config file', {
+    log.trace('could not load yoma config file', {
       configPath,
       reason: e,
     })
@@ -59,7 +59,7 @@ function validateConfig(config: any): Config | null {
 
   if (!config.default) {
     fatal(
-      'Your config in `nexus.config.ts` needs to be default exported. `export default createConfig({ ... })`'
+      'Your config in `yoma.config.ts` needs to be default exported. `export default createConfig({ ... })`'
     )
   }
 
@@ -67,7 +67,7 @@ function validateConfig(config: any): Config | null {
 }
 
 export function readConfig(): Config | null {
-  const config = tryReadConfig(fs.path('nexus.config.ts'))
+  const config = tryReadConfig(fs.path('yoma.config.ts'))
   const validatedConfig = validateConfig(config)
 
   if (!validateConfig(config)) {
@@ -349,14 +349,14 @@ export function loadEnvironmentFromConfig(inputStage: string | undefined): Envir
 }
 
 /**
- * Helper method to configure nexus. **Must be default exported in a `nexus.config.ts` file**
+ * Helper method to configure yoma. **Must be default exported in a `yoma.config.ts` file**
  *
  * @example
  *
  * export default createConfig({
  *   environments: {
  *     development: {
- *       NEXUS_DATABASE_URL: "<database_connection_url>"
+ *       YOMA_DATABASE_URL: "<database_connection_url>"
  *     }
  *   }
  * })

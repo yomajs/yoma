@@ -16,7 +16,7 @@ async function main() {
   }, 10 * 1000)
 
   const cwd = process.cwd()
-  const execLayout = await detectExecLayout({ depName: 'nexus', cwd })
+  const execLayout = await detectExecLayout({ depName: 'yoma', cwd })
 
   // If the script was run from a global cli such as npx, don't run typegen
   if (!execLayout.toolProject) {

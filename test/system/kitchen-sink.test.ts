@@ -4,7 +4,7 @@ import { e2eKitchenSink } from '../__helpers/e2e'
 
 const ctx = createE2EContext({
   serverPort: 5001,
-  localNexus: {
+  localYoma: {
     path: Path.join(__dirname, '..', '..'),
     createAppWithThis: true,
     createPluginWithThis: true,

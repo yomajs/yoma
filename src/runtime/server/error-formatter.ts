@@ -11,7 +11,7 @@ const resolverLogger = log.child('graphql')
 export function errorFormatter(graphQLError: GraphQLError) {
   const colorlessMessage = stripAnsi(graphQLError.message)
 
-  if (process.env.NEXUS_STAGE === 'dev') {
+  if (process.env.YOMA_STAGE === 'dev') {
     resolverLogger.error(graphQLError.message)
 
     if (graphQLError.source && graphQLError.locations) {

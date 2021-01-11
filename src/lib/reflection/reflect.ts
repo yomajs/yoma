@@ -29,7 +29,7 @@ type ReflectionResultArtifactGeneration =
 type ReflectionResult = ReflectionResultPlugins | ReflectionResultArtifactGeneration
 
 /**
- * Run the reflection step of Nexus. Get the used plugins and generate the artifacts optionally.
+ * Run the reflection step of Yoma. Get the used plugins and generate the artifacts optionally.
  */
 export function reflect(
   layout: Layout.Layout,
@@ -57,7 +57,7 @@ export async function reflect(
 
 /**
  * Hack: Plugins should ideally be discovered in a sub-process.
- * This is temporary until https://github.com/graphql-nexus/nexus/issues/818 is fixed
+ * This is temporary until https://github.com/yomajs/yoma/issues/8 is fixed
  */
 export async function runPluginsReflectionOnMainThread(
   layout: Layout.Layout
@@ -87,7 +87,7 @@ export function runTypegenReflectionAsSubProcess(layout: Layout.Layout) {
       stdio: process.env.DEBUG ? 'inherit' : 'pipe',
       env: {
         ...process.env,
-        NEXUS_REFLECTION_LAYOUT: JSON.stringify(layout.data),
+        YOMA_REFLECTION_LAYOUT: JSON.stringify(layout.data),
         ...getReflectionStageEnv('typegen'),
       },
     })

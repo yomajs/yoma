@@ -11,7 +11,7 @@ export function importPluginDimension<D extends Dimension>(
 ): DimensionToPlugin<D> {
   // Should be guaranteed by importPluginDimensions
   if (!manifest[dimension]) {
-    fatal(`We could not find the ${dimension} dimension of the Nexus plugin "${manifest.name}"`, {
+    fatal(`We could not find the ${dimension} dimension of the Yoma plugin "${manifest.name}"`, {
       plugin: manifest,
     })
   }
@@ -23,7 +23,7 @@ export function importPluginDimension<D extends Dimension>(
 
     if (!dimensionModule[dimensionEntrypoint.export]) {
       fatal(
-        `Nexus plugin "${manifest.name}" has no export \`${dimensionEntrypoint.export}\` in ${dimensionEntrypoint.module}`,
+        `Yoma plugin "${manifest.name}" has no export \`${dimensionEntrypoint.export}\` in ${dimensionEntrypoint.module}`,
         { plugin: manifest }
       )
     }
@@ -31,7 +31,7 @@ export function importPluginDimension<D extends Dimension>(
     const plugin = dimensionModule[dimensionEntrypoint.export]
 
     if (typeof plugin !== 'function') {
-      fatal(`Nexus plugin "${manifest.name}" does not export a valid ${dimension} plugin`, {
+      fatal(`Yoma plugin "${manifest.name}" does not export a valid ${dimension} plugin`, {
         plugin: manifest,
       })
     }
@@ -39,7 +39,7 @@ export function importPluginDimension<D extends Dimension>(
     const innerPlugin = plugin(manifest.settings)
 
     if (typeof innerPlugin !== 'function') {
-      fatal(`Nexus plugin "${manifest.name}" does not export a valid ${dimension} plugin`, {
+      fatal(`Yoma plugin "${manifest.name}" does not export a valid ${dimension} plugin`, {
         plugin: manifest,
       })
     }
@@ -48,7 +48,7 @@ export function importPluginDimension<D extends Dimension>(
   } catch (error) {
     fatal(
       stripIndent`
-        An error occured while loading the Nexus plugin "${manifest.name}":
+        An error occured while loading the Yoma plugin "${manifest.name}":
 
         ${error}
       `,

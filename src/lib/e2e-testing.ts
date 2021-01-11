@@ -46,14 +46,14 @@ interface Config {
    */
   serverPort?: number
   /**
-   * The absolute path to a source checkout of Nexus. The Nexus checkout should
+   * The absolute path to a source checkout of Yoma. The Yoma checkout should
    * be built as well.
    *
    * If this is present then the e2e test can run it for app creation instead
    * of npx. Also the created plugin later in the test can be made to use this
-   * Nexus instead of the pubished one.
+   * Yoma instead of the pubished one.
    */
-  localNexus: null | {
+  localYoma: null | {
     path: string
     createAppWithThis: boolean
     createPluginWithThis: boolean
@@ -74,22 +74,20 @@ export function createE2EContext(config: Config) {
     process.env.PORT = String(config.serverPort)
   }
 
-  const localNexusBinPath = config.localNexus
-    ? Path.join(config.localNexus.path, 'dist', 'cli', 'main')
-    : null
+  const localYomaBinPath = config.localYoma ? Path.join(config.localYoma.path, 'dist', 'cli', 'main') : null
   const projectDir = config?.dir ?? getTmpDir('e2e-app')
-  const PROJ_NEXUS_BIN_PATH = Path.join(projectDir, 'node_modules', '.bin', 'nexus')
+  const PROJ_YOMA_BIN_PATH = Path.join(projectDir, 'node_modules', '.bin', 'yoma')
 
   log.trace('setup', { projectDir, config })
 
   FS.dir(projectDir)
 
   const contextAPI = {
-    usingLocalNexus: config.localNexus,
+    usingLocalYoma: config.localYoma,
     /**
-     * Ignore this if usingLocalNexus is set.
+     * Ignore this if usingLocalYoma is set.
      */
-    useNexusVersion: process.env.E2E_NEXUS_VERSION ?? 'latest',
+    useYomaVersion: process.env.E2E_YOMA_VERSION ?? 'latest',
     dir: projectDir,
     config: config,
     getTmpDir: getTmpDir,
@@ -102,11 +100,11 @@ export function createE2EContext(config: Config) {
       const [binPath, ...args] = binPathAndArgs
       return spawn(binPath, args, { cwd: projectDir, ...opts })
     },
-    nexus(args: string[], opts: IPtyForkOptions = {}) {
-      return spawn(PROJ_NEXUS_BIN_PATH, args, { cwd: projectDir, ...opts })
+    yoma(args: string[], opts: IPtyForkOptions = {}) {
+      return spawn(PROJ_YOMA_BIN_PATH, args, { cwd: projectDir, ...opts })
     },
-    npxNexus(options: { nexusVersion: string }, args: string[]) {
-      return spawn('npx', [`nexus@${options.nexusVersion}`, ...args], {
+    npxYoma(options: { yomaVersion: string }, args: string[]) {
+      return spawn('npx', [`yoma@${options.yomaVersion}`, ...args], {
         cwd: projectDir,
         env: {
           ...process.env,
@@ -114,8 +112,8 @@ export function createE2EContext(config: Config) {
         },
       })
     },
-    npxNexusCreatePlugin(options: CreatePluginOptions & { nexusVersion: string }) {
-      return spawn('npx', [`nexus@${options.nexusVersion}`, 'create', 'plugin'], {
+    npxYomaCreatePlugin(options: CreatePluginOptions & { yomaVersion: string }) {
+      return spawn('npx', [`yoma@${options.yomaVersion}`, 'create', 'plugin'], {
         cwd: projectDir,
         env: {
           ...process.env,
@@ -124,8 +122,8 @@ export function createE2EContext(config: Config) {
         },
       })
     },
-    npxNexusCreateApp(options: CreateAppOptions & { nexusVersion: string }) {
-      return spawn('npx', [`nexus@${options.nexusVersion}`], {
+    npxYomaCreateApp(options: CreateAppOptions & { yomaVersion: string }) {
+      return spawn('npx', [`yoma@${options.yomaVersion}`], {
         cwd: projectDir,
         env: {
           ...process.env,
@@ -136,9 +134,9 @@ export function createE2EContext(config: Config) {
         },
       })
     },
-    localNexus: config.localNexus
+    localYoma: config.localYoma
       ? (args: string[]) => {
-          return spawn(NODE_PATH, [localNexusBinPath!, ...args], {
+          return spawn(NODE_PATH, [localYomaBinPath!, ...args], {
             cwd: projectDir,
             env: {
               ...process.env,
@@ -147,9 +145,9 @@ export function createE2EContext(config: Config) {
           })
         }
       : null,
-    localNexusCreateApp: config.localNexus
+    localYomaCreateApp: config.localYoma
       ? (options: CreateAppOptions) => {
-          return spawn(NODE_PATH, [localNexusBinPath!], {
+          return spawn(NODE_PATH, [localYomaBinPath!], {
             cwd: projectDir,
             env: {
               ...process.env,
@@ -161,9 +159,9 @@ export function createE2EContext(config: Config) {
           })
         }
       : null,
-    localNexusCreatePlugin: config.localNexus
+    localYomaCreatePlugin: config.localYoma
       ? (options: CreatePluginOptions) => {
-          return spawn(NODE_PATH, [localNexusBinPath!, 'create', 'plugin'], {
+          return spawn(NODE_PATH, [localYomaBinPath!, 'create', 'plugin'], {
             cwd: projectDir,
             env: {
               ...process.env,
@@ -175,8 +173,8 @@ export function createE2EContext(config: Config) {
       : null,
   }
 
-  if (config.localNexus) {
-    process.env.CREATE_APP_CHOICE_NEXUS_VERSION = `file:${config.localNexus.path}`
+  if (config.localYoma) {
+    process.env.CREATE_APP_CHOICE_YOMA_VERSION = `file:${config.localYoma.path}`
   }
 
   return contextAPI

@@ -9,7 +9,7 @@ import { ScanResult } from './layout'
  */
 export const TMP_TS_BUILD_FOLDER_PATH_RELATIVE_TO_PROJECT_ROOT = '.tmp_build'
 
-export const DEFAULT_BUILD_DIR_PATH_RELATIVE_TO_PROJECT_ROOT = '.nexus/build'
+export const DEFAULT_BUILD_DIR_PATH_RELATIVE_TO_PROJECT_ROOT = '.yoma/build'
 
 export type BuildLayout = {
   startModuleOutPath: string

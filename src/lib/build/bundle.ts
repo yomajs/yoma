@@ -34,7 +34,7 @@ interface BundleOptions {
    */
   tsRootDir: string
   /**
-   * List of Nexus plugins.
+   * List of Yoma plugins.
    */
   plugins: Plugin[]
 }
@@ -70,7 +70,7 @@ export async function traceFiles(opts: Pick<BundleOptions, 'base' | 'plugins' | 
     mixedModules: true,
     base: opts.base,
     /**
-     * - We ignore `prettier` because `@nexus/schema` requires it as a optional peer dependency
+     * - We ignore `prettier` because `nexus` requires it as a optional peer dependency
      * - We ignore `@prisma/client/scripts` because `nexus-plugin-prisma` causes node-file-trace to include these scripts which causes `ncc` to be traces as well
      */
     ignore: ['node_modules/prettier/index.js', 'node_modules/@prisma/client/scripts/**/*'],
@@ -131,7 +131,7 @@ export async function traceFiles(opts: Pick<BundleOptions, 'base' | 'plugins' | 
       }
     }
   }
-  if (process.env.NEXUS_FILE_TRACE_DEBUG) {
+  if (process.env.YOMA_FILE_TRACE_DEBUG) {
     fs.writeFileSync('file-trace.json', JSON.stringify(fileList, null, 2))
     fs.writeFileSync('file-trace-reasons.json', JSON.stringify(reasons, null, 2))
     fs.writeFileSync('file-trace-cache.json', JSON.stringify(Array.from(sourceCache.keys()).sort(), null, 2))
@@ -177,10 +177,10 @@ async function writeToFS(params: {
        * Transform path
        *
        *     from: <absPath>
-       * from val: /project/.nexus/tmp/folder/filename.js
+       * from val: /project/.yoma/tmp/folder/filename.js
        *
        *       to:      <bundleOutputDir>/<relativeRootDir>/<relativeToTsOutputDir>
-       *   to val: /project/.nexus/build/api              /folder/filename.js
+       *   to val: /project/.yoma/build/api              /folder/filename.js
        */
       to = Path.resolve(params.bundleOutputDir, relativeRootDir, relativeToTsOutputDir)
     } else {

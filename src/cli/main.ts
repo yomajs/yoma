@@ -8,8 +8,8 @@ import * as Glocal from '../lib/glocal'
 import * as Commands from './commands'
 
 Glocal.setup({
-  toolName: 'Nexus',
-  depName: 'nexus',
+  toolName: 'Yoma',
+  depName: 'yoma',
   filename: __filename,
   run() {
     dotenv.config()

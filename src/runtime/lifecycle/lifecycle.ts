@@ -39,7 +39,7 @@ export interface Lifecycle {
    *
    * @remarks
    *
-   * Put initialization code here that you don't want run during [Nexus reflection](https://nxs.li/about/reflection).
+   * Put initialization code here that you don't want run during [yoma reflection](https://yoma.dev/about/reflection).
    */
   start(callback: (data: Data) => void): void
   // idea - if we ever need it

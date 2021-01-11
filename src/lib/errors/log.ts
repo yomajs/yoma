@@ -8,7 +8,7 @@ import { printStack } from './stacktrace/print-stack'
 export function logPrettyError(log: Logger.Logger, err: Error, level: 'fatal'): never
 export function logPrettyError(log: Logger.Logger, err: Error, level: 'error'): void
 export function logPrettyError(log: Logger.Logger, err: Error, level: 'error' | 'fatal' = 'error'): void {
-  if (process.env.NEXUS_STAGE === 'dev') {
+  if (process.env.YOMA_STAGE === 'dev') {
     const { preview, methodName, file } = printStack({
       callsite: err.stack,
     })

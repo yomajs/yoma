@@ -24,24 +24,24 @@ export interface TestContextCore {
 }
 
 declare global {
-  interface NexusTestContextApp extends TestContextAppCore { }
+  interface YomaTestContextApp extends TestContextAppCore {}
 
-  interface NexusTestContextRoot {
-    app: NexusTestContextApp
+  interface YomaTestContextRoot {
+    app: YomaTestContextApp
     client: GraphQLClient
   }
 }
 
-export type TestContext = NexusTestContextRoot
+export type TestContext = YomaTestContextRoot
 
 export interface CreateTestContextOptions {
   /**
-   * A path to the entrypoint of your app. Only necessary if the entrypoint falls outside of Nexus conventions.
-   * You should typically use this if you're using `nexus dev --entrypoint` or `nexus build --entrypoint`.
+   * A path to the entrypoint of your app. Only necessary if the entrypoint falls outside of Yoma conventions.
+   * You should typically use this if you're using `yoma dev --entrypoint` or `yoma build --entrypoint`.
    */
   entrypointPath?: string
   /**
-   * Nexus usually determines the project root by the first `package.json` found while traversing up the file system.
+   * Yoma usually determines the project root by the first `package.json` found while traversing up the file system.
    * In some cases, e.g. usage in a monorepo, this might not always be correct.
    * For those cases, you can specify the `projectRoot` manually.
    *
@@ -57,7 +57,7 @@ export interface CreateTestContextOptions {
  *
  * With jest
  * ```ts
- * import { createTestContext, TestContext } from 'nexus/testing'
+ * import { createTestContext, TestContext } from 'yoma/testing'
  *
  * let ctx: TestContext
  *
@@ -73,10 +73,12 @@ export interface CreateTestContextOptions {
  */
 export async function createTestContext(opts?: CreateTestContextOptions): Promise<TestContext> {
   // Guarantee that development mode features are on
-  process.env.NEXUS_STAGE = 'dev'
+  process.env.YOMA_STAGE = 'dev'
 
   // todo figure out some caching system here, e.g. imagine jest --watch mode
-  const layout = rightOrFatal(await Layout.create({ entrypointPath: opts?.entrypointPath, projectRoot: opts?.projectRoot }))
+  const layout = rightOrFatal(
+    await Layout.create({ entrypointPath: opts?.entrypointPath, projectRoot: opts?.projectRoot })
+  )
   const pluginManifests = await PluginWorktime.getUsedPlugins(layout)
   const randomPort = await getPort({ port: getPort.makeRange(4000, 6000) })
   const privateApp = app as PrivateApp
@@ -84,10 +86,10 @@ export async function createTestContext(opts?: CreateTestContextOptions): Promis
   const forcedServerSettings = {
     port: randomPort,
     playground: false, // Disable playground during tests
-    startMessage() { }, // Make server silent
+    startMessage() {}, // Make server silent
   }
 
-  // todo remove these settings hacks once we have https://github.com/graphql-nexus/nexus/issues/758
+  // todo remove these settings hacks once we have https://github.com/yomajs/yoma/issues/9
   const originalSettingsChange = privateApp.settings.change
 
   privateApp.settings.change({

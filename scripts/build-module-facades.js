@@ -5,11 +5,11 @@
  * the actual code inside ./dist. The problem being solved here is that it
  * allows consumers to do e.g. this:
  *
- *    import { ... } from 'nexus/testing'
+ *    import { ... } from 'yoma/testing'
  *
  * Instead of:
  *
- *    import { ... } from 'nexus/dist/testing'
+ *    import { ... } from 'yoma/dist/testing'
  *
  * Whatever modules are written here should be:
  *

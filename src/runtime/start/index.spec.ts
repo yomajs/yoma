@@ -8,19 +8,19 @@ import { createStartModuleContent } from './'
 const ctx = TC.create(TC.tmpDir(), TC.fs())
 
 describe('createStartModuleContent', () => {
-  it('app module but not nexus modules', async () => {
+  it('app module but not yoma modules', async () => {
     ctx.fs.write('packge.json', { name: 'app', version: '0.0.0' })
     ctx.fs.write('app.ts', '')
     ctx.fs.write('tsconfig.json', tsconfigTemplate({ outRootRelative: 'build', sourceRootRelative: '.' }))
     const layout = await Layout.create({ cwd: ctx.fs.cwd() }).then(rightOrThrow)
     const sm = createStartModuleContent({ internalStage: 'build', runtimePluginManifests: [], layout })
     expect(sm).toMatchInlineSnapshot(`
-      "// GENERATED NEXUS START MODULE
+      "// GENERATED YOMA START MODULE
 
 
       // Run framework initialization side-effects
       // Also, import the app for later use
-      import app from \\"nexus\\")
+      import app from \\"yoma\\")
 
 
       // Last resort error handling
@@ -44,12 +44,12 @@ describe('createStartModuleContent', () => {
     `)
   })
 
-  it('with app module and nexus modules', async () => {
+  it('with app module and yoma modules', async () => {
     ctx.fs.write('packge.json', { name: 'app', version: '0.0.0' })
     ctx.fs.write('app.ts', '')
-    ctx.fs.write('a.ts', 'import "nexus"')
-    ctx.fs.write('b.ts', 'import "nexus"')
-    ctx.fs.write('c/d/e.ts', 'import "nexus"')
+    ctx.fs.write('a.ts', 'import "yoma"')
+    ctx.fs.write('b.ts', 'import "yoma"')
+    ctx.fs.write('c/d/e.ts', 'import "yoma"')
     ctx.fs.write('tsconfig.json', tsconfigTemplate({ outRootRelative: 'build', sourceRootRelative: '.' }))
     const layout = await Layout.create({ cwd: ctx.fs.cwd() }).then(rightOrThrow)
     const sm = createStartModuleContent({
@@ -58,12 +58,12 @@ describe('createStartModuleContent', () => {
       layout,
     })
     expect(sm).toMatchInlineSnapshot(`
-      "// GENERATED NEXUS START MODULE
+      "// GENERATED YOMA START MODULE
 
 
       // Run framework initialization side-effects
       // Also, import the app for later use
-      import app from \\"nexus\\")
+      import app from \\"yoma\\")
 
 
       // Last resort error handling
@@ -78,7 +78,7 @@ describe('createStartModuleContent', () => {
       })
 
 
-      // Import the user's Nexus modules
+      // Import the user's Yoma modules
               
       import './a'
       import './b'
@@ -94,9 +94,9 @@ describe('createStartModuleContent', () => {
     `)
   })
 
-  it('with nexus modules', async () => {
+  it('with yoma modules', async () => {
     ctx.fs.write('packge.json', { name: 'app', version: '0.0.0' })
-    ctx.fs.write('a.ts', 'import "nexus"')
+    ctx.fs.write('a.ts', 'import "yoma"')
     ctx.fs.write('tsconfig.json', tsconfigTemplate({ outRootRelative: 'build', sourceRootRelative: '.' }))
     const layout = await Layout.create({ cwd: ctx.fs.cwd() }).then(rightOrThrow)
     const sm = createStartModuleContent({
@@ -105,12 +105,12 @@ describe('createStartModuleContent', () => {
       layout,
     })
     expect(sm).toMatchInlineSnapshot(`
-      "// GENERATED NEXUS START MODULE
+      "// GENERATED YOMA START MODULE
 
 
       // Run framework initialization side-effects
       // Also, import the app for later use
-      import app from \\"nexus\\")
+      import app from \\"yoma\\")
 
 
       // Last resort error handling
@@ -125,7 +125,7 @@ describe('createStartModuleContent', () => {
       })
 
 
-      // Import the user's Nexus modules
+      // Import the user's Yoma modules
               
       import './a'
 
@@ -141,10 +141,10 @@ describe('createStartModuleContent', () => {
     ctx.fs.write('tsconfig.json', tsconfigTemplate({ outRootRelative: 'build', sourceRootRelative: '.' }))
     const layout = await Layout.create({ cwd: ctx.fs.cwd() }).then(rightOrThrow)
     const pluginManifest = {
-      name: 'nexus-plugin-a',
+      name: 'yoma-plugin-a',
       runtime: {
         export: 'a',
-        module: ctx.fs.path('node_modules/nexus-plugin-a/dist/runtime.js'),
+        module: ctx.fs.path('node_modules/yoma-plugin-a/dist/runtime.js'),
       },
     } as Manifest
     const sm = createStartModuleContent({
@@ -153,12 +153,12 @@ describe('createStartModuleContent', () => {
       layout,
     })
     expect(sm).toMatchInlineSnapshot(`
-      "// GENERATED NEXUS START MODULE
+      "// GENERATED YOMA START MODULE
 
 
       // Run framework initialization side-effects
       // Also, import the app for later use
-      import app from \\"nexus\\")
+      import app from \\"yoma\\")
 
 
       // Last resort error handling
@@ -177,7 +177,7 @@ describe('createStartModuleContent', () => {
       require(\\"./app\\")
 
 
-      import { a as plugin_0 } from 'nexus-plugin-a/dist/runtime'
+      import { a as plugin_0 } from 'yoma-plugin-a/dist/runtime'
 
 
       app.assemble()

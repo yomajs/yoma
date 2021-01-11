@@ -11,10 +11,10 @@ import { ContribType, extractContextTypes, ExtractedContextTypes } from './extra
 
 const log = rootLogger.child('addToContextExtractor')
 
-export const NEXUS_DEFAULT_RUNTIME_CONTEXT_TYPEGEN_PATH = fs.path(
+export const YOMA_DEFAULT_RUNTIME_CONTEXT_TYPEGEN_PATH = fs.path(
   'node_modules',
   '@types',
-  'typegen-nexus-context',
+  'typegen-yoma-context',
   'index.d.ts'
 )
 
@@ -66,7 +66,7 @@ export async function writeContextTypeGenFile(contextTypes: ExtractedContextType
   }
 
   const content = codeBlock`
-    import app from 'nexus'
+    import app from 'yoma'
 
     // Imports for types referenced by context types.
 
@@ -74,10 +74,10 @@ export async function writeContextTypeGenFile(contextTypes: ExtractedContextType
       .map((ti) => renderImport({ names: [ti.name], from: ti.modulePath }))
       .join('\n')}
 
-    // Tap into Nexus' global context interface. Make all local context interfaces merge into it.
+    // Tap into Yoma' global context interface. Make all local context interfaces merge into it.
 
     declare global {
-      export interface NexusContext extends Context {}
+      export interface YomaContext extends Context {}
     }
 
     // The context types extracted from the app.
@@ -85,7 +85,7 @@ export async function writeContextTypeGenFile(contextTypes: ExtractedContextType
     ${addToContextInterfaces}
   `
 
-  await hardWriteFile(NEXUS_DEFAULT_RUNTIME_CONTEXT_TYPEGEN_PATH, content)
+  await hardWriteFile(YOMA_DEFAULT_RUNTIME_CONTEXT_TYPEGEN_PATH, content)
 }
 
 function renderImport(input: { from: string; names: string[] }) {

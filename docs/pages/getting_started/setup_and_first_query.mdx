@@ -1,0 +1,92 @@
+---
+title: 'Setup and first query'
+---
+
+## Overview
+
+In this first chapter we're just going to get the bare minimum of a Yoma project setup. You'll learn about:
+
+- The `yoma` package
+- The Yoma CLI
+- Laying out and running a Yoma project
+- GraphQL Playground
+
+## CLI
+
+Start by creating your project directory, initializing your `package.json`, and adding the `nexus` dependency.
+
+```bash-symbol
+mkdir yoma-tutorial && cd yoma-tutorial
+yarn init -y
+yarn add yoma
+```
+
+Yoma comes out of the box with a CLI. You'll use it often while working on your app. While you can access the CLI of your local yoma via `yarn`, npm scripts, or `npx` but there's an even easier way. Install `yoma` globally. Then you can access the CLI from anywhere. Yoma is smart enough to delegate all invocations to the _local_ yoma. This is the idiomatic way to work with Yoma, but you aren't forced to do this.
+
+```bash-symbol
+npm add --global yoma
+```
+
+There are just two CLI commands you need to know about right now:
+
+- `yoma dev` : This command starts a development server in watch mode. Every time you change a file, your app will be restarted.
+- `yoma build` : This command builds a "production-ready" server, ready to be deployed.
+
+> Another is `yoma create app` which will scaffold a new Yoma project for you. That is how you should _normally_ start your Yoma projects. We're avoiding it in this tutorial so that you can learn the basics from the ground up.
+
+Despite having the global Yoma CLI, using package scripts can be a handy way of self-documenting your project's workflows. So feel free to add the following scripts to your `package.json`. If you work with team members this can help streamline collaboration.
+
+```json
+"scripts": {
+  "dev": "yoma dev",
+  "build": "yoma build"
+}
+```
+
+## Conventional entrypoint
+
+We'll now create our first module at `api/app.ts`:
+
+```bash-symbol
+mkdir api && touch api/app.ts
+```
+
+The directory name `api` is arbitrary but the module name `app` has special meaning. Yoma will find `app.ts` wherever you put it within your project and treat it as your entrypoint. Furthermore, every module that imports `yoma` will be automatically included into the final build by Yoma. This makes growing and refactoring your project easy as you are freed from managing import/export tedium. You might be wondering how import order is managed. The answer is that Yoma's APIs are declarative and so designed to be order independent.
+
+## Contextual feedback
+
+Ok, with our entrypoint setup, let's boot up dev mode and see what happens.
+
+```bash-symbol
+yoma dev
+```
+
+Woops? You should be seeing a warning from Yoma:
+
+```bash-symbol
+▲ nexus:schema Your GraphQL schema is empty. [...]
+```
+
+All good, you indeed haven't added any types to your GraphQL schema yet so Yoma is right here. This is the first example of Yoma' rich development mode contextual feedback. One of the goals of Yoma is to never leave you in a confused disoriented state. If Yoma can give you an inline feedback it should. Add rich jsDoc and precise TypeScript types into the mix, and ideally you can largely avoid getting lost and _needing_ to consult the Yoma website, community, so on.
+
+## Try it out
+
+Aside from the warning, you should also see a message indicating that your server is running, and where.
+
+```bash-symbol
+● nexus:server listening  --  url: 'http://localhost:4000/graphql'
+```
+
+Open it up, what do you see? It should be an instance of [GraphQL Playground](https://github.com/prisma-labs/graphql-playground).
+
+![image](https://user-images.githubusercontent.com/284476/83534302-ae1b7d00-a4be-11ea-9a13-2665bf152e2a.png)
+
+This is a graphical user interface for interacting with GraphQL APIs. If you prefer you can run a [standalone](https://www.electronjs.org/apps/graphql-playground) version as an app on your machine, or another GraphQL GUI entirely. Yoma ships with one out of the box for your convenience.
+
+Take a look at the right-hand side SCHEMA tab. There you'll see a default schema that Yoma has provided for you. This, along with the warning you saw before, will go away once you begin your own schema.
+
+Note that Yoma will serve GraphQL requests on this same path. Only client `GET` requests with the `accept: text/html` header will get back the Playground response.
+
+## Wrapping up
+
+That's it! In the next chapter you'll begin working on your app's schema.

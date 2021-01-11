@@ -2,17 +2,17 @@
  * Helpers for handling the generated backing types typgen
  */
 declare global {
-  interface NexusBackingTypes {}
+  interface YomaBackingTypes {}
 }
 
 type GenTypesShapeKeys = 'types'
 
 type GenTypesShape = Record<GenTypesShapeKeys, any>
 
-export type GetNexusFutureGen<
+export type GetYomaFutureGen<
   K extends GenTypesShapeKeys,
   Fallback = any
-> = NexusBackingTypes extends infer GenTypes
+> = YomaBackingTypes extends infer GenTypes
   ? GenTypes extends GenTypesShape
     ? GenTypes[K]
     : Fallback

@@ -77,9 +77,9 @@ function createClient() {
     //   if (state.connected) return Promise.resolve()
     //   state.connected = true
     //   return new Promise(res => {
-    //     ipc2.connectTo('nexus_dev_watcher', () => {
+    //     ipc2.connectTo('yoma_dev_watcher', () => {
     //       clientLog.trace('socket created')
-    //       ipc2.of.nexus_dev_watcher.on('connect', () => {
+    //       ipc2.of.yoma_dev_watcher.on('connect', () => {
     //         clientLog.trace('connection to watcher established')
     //         res()
     //       })

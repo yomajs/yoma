@@ -2,11 +2,11 @@ import { Either, right } from 'fp-ts/lib/Either'
 import { rootLogger } from '../nexus-logger'
 import { create, createFromData, Data, Layout } from './layout'
 
-const ENV_VAR_DATA_NAME = 'NEXUS_LAYOUT'
+const ENV_VAR_DATA_NAME = 'YOMA_LAYOUT'
 
 const log = rootLogger.child('layout')
 
-export function saveDataForChildProcess(layout: Layout): { NEXUS_LAYOUT: string } {
+export function saveDataForChildProcess(layout: Layout): { YOMA_LAYOUT: string } {
   return {
     [ENV_VAR_DATA_NAME]: JSON.stringify(layout.data),
   }
