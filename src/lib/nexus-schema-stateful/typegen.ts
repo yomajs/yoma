@@ -94,7 +94,7 @@ function withCustomTypegenConfig(
         interface NexusContext extends Context {}
       }
     `)
-    config.contextType = 'NexusContext'
+    config.contextType = 'YomaContext'
 
     // Integrate plugin context contributions
     for (const p of plugins) {
@@ -118,13 +118,13 @@ function withCustomTypegenConfig(
     }
 
     config.imports.push(
-      "import * as Logger from 'nexus/components/logger'",
+      "import * as Logger from 'yoma/components/logger'",
       contextTypeContribSpecToCode({
         log: 'Logger.Logger',
       })
     )
 
-    config.nexusSchemaImportId = 'nexus/components/schema'
+    config.nexusSchemaImportId = 'yoma/components/schema'
 
     log.trace('built up Nexus typegenConfig', { config })
     return config

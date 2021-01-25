@@ -97,7 +97,8 @@ We'll start by letting API clients read the drafts of your blog.
 
 ```ts
 // api/graphql/Post.ts // 1
-// ...
+
+schema.objectType({...}) // from above
 
 schema.extendType({
   type: 'Query', // 2

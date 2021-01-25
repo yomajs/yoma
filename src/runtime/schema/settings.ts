@@ -177,7 +177,7 @@ export const createSchemaSettingsManager = () =>
         entry: {
           map(input, ctx) {
             return {
-              nexusSchemaImportId: 'nexus/components/schema',
+              nexusSchemaImportId: 'yoma/components/schema',
               nexusFieldName: ctx.key === 'default' ? 'connection' : ctx.key,
             }
           },

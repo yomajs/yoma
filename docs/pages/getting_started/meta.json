@@ -1,5 +1,6 @@
 {
   "index": "Introduction",
   "setup_and_first_query": "1. Setup and first query",
-  "writing_your_first_schema": "2. Writing your first schema"
+  "writing_your_first_schema": "2. Writing your first schema",
+  "adding_mutations": "3. Adding Mutations"
 }

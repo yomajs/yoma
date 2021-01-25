@@ -18,7 +18,7 @@ it('has defaults', () => {
         "default": Object {
           "enabled": true,
           "nexusFieldName": "connection",
-          "nexusSchemaImportId": "nexus/components/schema",
+          "nexusSchemaImportId": "yoma/components/schema",
         },
       },
       "generateGraphQLSDLFile": "api.graphql",
@@ -44,12 +44,12 @@ describe('connctions', () => {
         "a": Object {
           "enabled": true,
           "nexusFieldName": "a",
-          "nexusSchemaImportId": "nexus/components/schema",
+          "nexusSchemaImportId": "yoma/components/schema",
         },
         "default": Object {
           "enabled": true,
           "nexusFieldName": "connection",
-          "nexusSchemaImportId": "nexus/components/schema",
+          "nexusSchemaImportId": "yoma/components/schema",
         },
       }
     `)
@@ -62,7 +62,7 @@ describe('connctions', () => {
         "disableForwardPagination": true,
         "enabled": true,
         "nexusFieldName": "a",
-        "nexusSchemaImportId": "nexus/components/schema",
+        "nexusSchemaImportId": "yoma/components/schema",
       }
     `)
   })
@@ -73,7 +73,7 @@ describe('connctions', () => {
         "disableForwardPagination": true,
         "enabled": true,
         "nexusFieldName": "connection",
-        "nexusSchemaImportId": "nexus/components/schema",
+        "nexusSchemaImportId": "yoma/components/schema",
       }
     `)
   })
